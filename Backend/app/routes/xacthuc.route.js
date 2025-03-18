@@ -12,15 +12,3 @@ router.route("/dangnhap")
 
 
 module.exports = router;
-/*
-
-const express = require("express");
-const router = express.Router();
-const authController = require("../controllers/auth.controller");
-
-// Đăng ký và đăng nhập
-router.post("/register", authController.register);
-router.post("/login", authController.login);
-
-module.exports = router;
-*/

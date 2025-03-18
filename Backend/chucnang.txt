@@ -1,0 +1,35 @@
+📌 Đăng ký (Register)
+	1.	Người dùng gửi thông tin username, password, và role đến API đăng ký.
+	2.	Mật khẩu được băm (hash) bằng bcrypt trước khi lưu vào database để bảo mật.
+	3.	Hệ thống kiểm tra xem username đã tồn tại chưa. Nếu chưa, lưu vào database.
+	4.	Trả về phản hồi “Đăng ký thành công”.
+
+📌 Đăng nhập (Login)
+	1.	Người dùng gửi username + password lên API đăng nhập.
+	2.	Hệ thống kiểm tra xem username có trong database không.
+	3.	Nếu có, so sánh mật khẩu đã nhập với mật khẩu đã băm (hash) trong database bằng bcrypt.
+	4.	Nếu đúng, hệ thống tạo một JWT Token chứa thông tin người dùng (id, role, v.v.).
+	5.	Trả về token, người dùng dùng token này để truy cập các API yêu cầu đăng nhập.
+
+📌 Phân quyền (Authorization)
+	1.	Khi người dùng gọi API, họ gửi kèm token trong phần Authorization của request header.
+	2.	Hệ thống sẽ giải mã token, lấy thông tin role của người dùng.
+	3.	Nếu người dùng không có quyền, hệ thống sẽ từ chối truy cập (403 Forbidden).
+
+
+2️⃣ Các Công Nghệ Sử Dụng
+	•	bcryptjs → Băm mật khẩu để bảo mật.
+	•	jsonwebtoken (JWT) → Cấp phát và xác minh token.
+	•	dotenv → Quản lý biến môi trường (chứa JWT_SECRET).
+
+
+📌 Các file cần thêm mới:
+	1.	auth.controller.js (Xử lý đăng ký, đăng nhập)
+	2.	auth.route.js (Định nghĩa route /register, /login)
+	3.	auth.service.js (Gọi database, kiểm tra tài khoản)
+	4.	middlewares/auth.js (Xác thực token, phân quyền)
+
+4️⃣ Cách Xác Thực và Phân Quyền Bằng JWT
+	•	Khi đăng nhập, server tạo JWT token và gửi cho người dùng.
+	•	Khi gọi API yêu cầu đăng nhập, người dùng gửi token trong header.
+	•	Server kiểm tra token để xác định quyền truy cập.

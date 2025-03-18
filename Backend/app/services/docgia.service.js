@@ -1,0 +1,112 @@
+const bcrypt = require("bcryptjs");
+const ApiError = require("../api-error");
+
+// Lớp quản lý các thao tác với collection Độc Giả
+class DocgiaService {
+    constructor(client) {
+        this.Docgia = client.db().collection("DOCGIA");
+    }
+
+    // Lọc dữ liệu
+    async extractDocgiaData(payload) {
+        const hashedPassword = await bcrypt.hash(payload.DG_Password, 10);
+        const docgia = {
+            _id: payload.DG_UserName,
+            DG_Password: hashedPassword,
+            DG_HoLot: payload.DG_HoLot,
+            DG_Ten: payload.DG_Ten,
+            DG_NgaySinh: payload.DG_NgaySinh,
+            DG_Phai: payload.DG_Phai,
+            DG_DiaChi: payload.DG_DiaChi,
+            DG_DienThoai: payload.DG_DienThoai,
+        };
+
+        // Loại bỏ các trường không có giá trị
+        Object.keys(docgia).forEach(
+            (key) => docgia[key] === undefined && delete docgia[key]
+        );
+        return docgia;
+    }
+
+    // Tạo độc giả mới
+    async create(payload) {
+        const docgia = await this.extractDocgiaData(payload);
+        if( !docgia._id || 
+            !docgia.DG_Password ||
+            !docgia.DG_HoLot ||
+            !docgia.DG_Ten ||
+            !docgia.DG_NgaySinh ||
+            !docgia.DG_Phai||
+            !docgia.DG_DiaChi ||
+            !docgia.DG_DienThoai)
+            {
+                throw new ApiError(400, "Missing required field(s)");   
+            }
+           
+        const existDocgia = await this.find({_id: docgia._id});
+        if (existDocgia.lengt >0){
+            throw new ApiError(400, "Employee ID already exists");
+        }
+
+        const result = await this.Docgia.findOneAndUpdate(
+            docgia,
+            { $set: docgia },
+            { returnDocument: "after", upsert: true }
+        );
+        return result;
+    }
+
+    // Tìm kiếm độc giả
+    async find(filter) {
+        const cursor = await this.Docgia.find(filter);
+        return await cursor.toArray();
+    }
+
+    async findByName(DG_UserName) {
+        return await this.find({
+            DG_UserName: { $regex: new RegExp(DG_UserName), $options: "i" },
+        });
+    }
+
+    // Tìm kiếm theo ID
+    async findById(id) {
+        return await this.Docgia.findOne({
+            _id: id,
+        });
+    }
+
+    // Cập nhật độc giả theo ID
+    async update(id, payload) {
+        const filter = {
+            _id: id,
+        };
+        const update = this.extractDocgiaData(payload);
+        const result = await this.Docgia.findOneAndUpdate(
+            filter,
+            { $set: update },
+            { returnDocument: "after" }
+        );
+        return result;
+    }
+
+    // Xóa độc giả theo ID
+    async delete(id) {
+        const filter = {
+            _id: id,
+        };
+        const result = await this.Docgia.findOneAndDelete(filter);
+        return result;
+    }
+
+    // Xóa toàn bộ độc giả
+    async deleteAll() {
+        const result = await this.Docgia.deleteMany({});
+        return result.deletedCount;
+    }
+
+    async findOne(filter){
+        return await this.Docgia.findOne(filter);
+    }
+}
+
+module.exports = DocgiaService;

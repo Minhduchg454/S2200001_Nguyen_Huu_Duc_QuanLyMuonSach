@@ -9,10 +9,10 @@ class DocgiaService {
 
     // Lọc dữ liệu
     async extractDocgiaData(payload) {
-        const hashedPassword = await bcrypt.hash(payload.DG_Password, 10);
+        
         const docgia = {
             _id: payload.DG_UserName,
-            DG_Password: hashedPassword,
+            DG_Password: payload.DG_Password,
             DG_HoLot: payload.DG_HoLot,
             DG_Ten: payload.DG_Ten,
             DG_NgaySinh: payload.DG_NgaySinh,
@@ -43,6 +43,8 @@ class DocgiaService {
                 throw new ApiError(400, "Missing required field(s)");   
             }
            
+        docgia.DG_Password= await bcrypt.hash(payload.DG_Password, 10);
+
         const existDocgia = await this.find({_id: docgia._id});
         if (existDocgia.lengt >0){
             throw new ApiError(400, "Employee ID already exists");
@@ -80,7 +82,10 @@ class DocgiaService {
         const filter = {
             _id: id,
         };
-        const update = this.extractDocgiaData(payload);
+        const update = await this.extractDocgiaData(payload);
+        if (update.DG_Password) {
+            update.DG_Password = await bcrypt.hash(update.DG_Password, 10);
+        }
         const result = await this.Docgia.findOneAndUpdate(
             filter,
             { $set: update },

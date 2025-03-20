@@ -1,4 +1,3 @@
-const { ObjectId } = require("mongodb");
 const bcrypt = require("bcryptjs");
 const ApiError = require("../api-error");
 
@@ -8,11 +7,9 @@ class NhanvienService {
     }
 
     async extractNhanvienData(payload) {
-         const hashedPassword = await bcrypt.hash(payload.NV_Password, 10);
-
         const nhanvien = {
             _id: payload.NV_MaNV,
-            NV_Password: hashedPassword,
+            NV_Password: payload.NV_Password,
             NV_HoTenNV: payload.NV_HoTenNV,
             NV_ChucVu: payload.NV_ChucVu,
             NV_DiaChi: payload.NV_DiaChi,
@@ -27,12 +24,18 @@ class NhanvienService {
 
     async create(payload) {
         const nhanvien = await this.extractNhanvienData(payload);
+        
+        // Chỉ hash mật khẩu nếu payload có NV_Password
+        if (nhanvien.NV_Password) {
+            nhanvien.NV_Password = await bcrypt.hash(nhanvien.NV_Password, 10);
+        }
 
         if (
             !nhanvien._id || !nhanvien.NV_Password ||
             !nhanvien.NV_HoTenNV || !nhanvien.NV_ChucVu || !nhanvien.NV_DiaChi || !nhanvien.NV_SoDienThoai) {
             throw new ApiError(400, "Missing required field(s)");
         }
+
 
          // Kiểm tra xem ID có tồn tại không
         const existingNhanvien = await this.Nhanvien.findOne({ _id: nhanvien._id });
@@ -67,12 +70,18 @@ class NhanvienService {
 
     async update(id, payload) {
         const filter = { _id: id };
-        const update = this.extractNhanvienData(payload);
+        const update = await this.extractNhanvienData(payload);
+        
+        if (update.NV_Password) {
+            update.NV_Password = await bcrypt.hash(update.NV_Password, 10);
+        }
+       
         const result = await this.Nhanvien.findOneAndUpdate(
             filter,
             { $set: update },
             { returnDocument: "after" }
         );
+        console.log(result)
         return result;
     }
 

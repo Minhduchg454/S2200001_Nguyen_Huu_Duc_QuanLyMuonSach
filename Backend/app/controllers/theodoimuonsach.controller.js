@@ -50,6 +50,8 @@ exports.findAll = async (req, res, next) => {
     try {
         const service = new TheodoimuonsachService(MongoDB.client);
         const { DG_MaDocGia } = req.query;
+        // In ra console để kiểm tra request query
+        console.log("Received query:", req.query);
         if (DG_MaDocGia) {
             documents = await service.findByReaderId(DG_MaDocGia);
         } else {

@@ -21,8 +21,7 @@ class SachService {
     
     */
 
-
-    async deleteAll(token) {
+    async deleteAll() {
         return (await this.api.delete("/")).data;
     }
 

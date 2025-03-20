@@ -66,11 +66,17 @@ class XacthucService {
             process.env.JWT_SECRET, //Khoa bi mat
             { expiresIn: "1h"} //Token het han sau 1h
         )
+        return {
+            token: token,
+            user: {
+                id: user._id,
+                userName: user.userName || user.DG_Ten || user.NV_HoTenNV, // Lấy tên phù hợp
+                email: user.email || "",
+                role: role
+            }
+        };
 
-        return token;
     }
-
-
 }
 
 module.exports = XacthucService;

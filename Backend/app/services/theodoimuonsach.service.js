@@ -32,8 +32,7 @@ class TheodoimuonsachService {
         // Kiểm tra trường trống
         if (!theodoimuonsach.NgayMuon ||
             !theodoimuonsach.S_MaSach ||
-            !theodoimuonsach.DG_MaDocGia ||
-            !theodoimuonsach.NV_MaNV) {
+            !theodoimuonsach.DG_MaDocGia) {
             throw new ApiError(400, "Missing required field");
         }
 
@@ -66,15 +65,10 @@ class TheodoimuonsachService {
             throw new ApiError(400, "Invalid S_MaSach");
         }
 
-        // Kiểm tra nhân viên
-        const maNhanVien = await nhanvienService.findById(theodoimuonsach.NV_MaNV);
-        if (!maNhanVien) {
-            throw new ApiError(400, "Invalid NV_MaNV");
-        }
-
 
         // Chèn dữ liệu mới
         const result = await this.Theodoimuonsach.insertOne(theodoimuonsach);
+        await sachService.update(theodoimuonsach.S_MaSach,{S_SoQuyen: -1 });
         return { insertedId: result.insertedId, ...theodoimuonsach };
     }
 

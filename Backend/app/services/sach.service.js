@@ -95,16 +95,27 @@ class SachService {
 
     //Cap nhat theo id va noi dung
     async update(id, payload)  {
-        // Kiểm tra xem id hop le hay khong, neu hop le chuyen thanh kieu ObjectId
-        const filter = {
-            _id: id,
-        };
-        const update = await this.extractSachData(payload);
+        const filter = { _id: id };
+        const updateData = {};
+
+        if (payload.hasOwnProperty("S_SoQuyen")) {
+            if (payload.S_SoQuyen === -1) {
+                updateData.$inc = { S_SoQuyen: -1 }; // Giảm số lượng đi 1
+            } else {
+                updateData.$set = { S_SoQuyen: payload.S_SoQuyen }; // Cập nhật số lượng cụ thể
+            }
+        }
+
         const result = await this.Sach.findOneAndUpdate(
-            filter, //tim gia tri filter khop voi id
-            {$set: update},
-            {returnDocument: "after"}
+            filter,
+            updateData,
+            { returnDocument: "after" } // Trả về document sau khi cập nhật
         );
+
+        if (!result) {
+            throw new ApiError(404, "Book not found");
+        }
+
         return result;
 
         // Kiem tra bang postman PUT: ID và payload truyen noi dung can cap nhat

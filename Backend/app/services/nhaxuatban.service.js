@@ -50,7 +50,7 @@ class NhaxuatbanService {
     // Cập nhật theo ID
     async update(id, payload) {
         const filter = { _id: String(id) };
-        const update = this.extractNXBData(payload);
+        const update = await this.extractNXBData(payload);
 
         return await this.Nhaxuatban.findOneAndUpdate(
             filter,

@@ -20,6 +20,7 @@ exports.update = async (req, res, next) => {
     }
     try {
         const nhanvienService = new NhanvienService(MongoDB.client);
+
         const document = await nhanvienService.update(req.params.id, req.body);
         if (!document) {
             return next(new ApiError(404, "Employee not found"));

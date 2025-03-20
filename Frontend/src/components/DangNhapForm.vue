@@ -36,8 +36,8 @@
         Đăng nhập
       </button>
       <br />
-      <button class="btn btn-secondary" type="button" @click="gotoRegister">
-        Đăng ký
+      <button class="btn--link" type="button" @click="gotoRegister">
+        Tạo tài khoản
       </button>
     </div>
   </Form>
@@ -84,7 +84,7 @@ export default {
 
     // Đổi tên hàm này để khớp với template
     gotoRegister() {
-      this.$router.push({ name: "dangky" });
+      this.$router.push({ name: "dangkydocgia" });
     },
   },
 };
@@ -93,19 +93,32 @@ export default {
 <style scoped>
 @import "@/assets/main.css";
 .form--custom {
+  background-color: white;
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: auto; /* Giúp căn giữa theo chiều dọc */
-  border-radius: 10px;
-  border: black solid 1px;
+  margin: auto; /* Giúp căn giữa theo chiều dọc, dựa vào cha  main--custom*/
+  border-radius: 15px;
   padding: 10px;
 }
 .controlButton {
   margin-top: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  flex-direction: column;
 }
 
 .btn {
   width: 150px;
+}
+
+.btn--link {
+  background: none;
+  border: none;
+  color: black;
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 0;
 }
 </style>

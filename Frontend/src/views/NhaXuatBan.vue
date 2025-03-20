@@ -16,7 +16,7 @@
       />
       <p v-else>Không có nhà xuất bản nào.</p>
 
-      <div class="mt-3 row justify-content-around align-items-center">
+      <div class="mt-3 d-flex justify-content-center gap-2">
         <button class="btn btn-sm btn-primary" @click="refreshList">
           <i class="fas fa-redo"></i> Làm mới
         </button>

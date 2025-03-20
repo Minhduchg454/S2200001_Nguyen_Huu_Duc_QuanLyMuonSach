@@ -17,7 +17,7 @@
       <p v-else>Không có sách nào.</p>
 
       <div
-        class="mt-3 row justify-content-around align-items-center"
+        class="mt-3 d-flex justify-content-center gap-2"
         v-if="user.role == 'nhanvien'"
       >
         <button class="btn btn-sm btn-primary" @click="refreshList">

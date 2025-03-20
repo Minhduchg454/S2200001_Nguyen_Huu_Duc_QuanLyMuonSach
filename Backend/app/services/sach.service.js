@@ -98,6 +98,7 @@ class SachService {
         const filter = { _id: id };
         const updateData = {};
 
+        /*
         if (payload.hasOwnProperty("S_SoQuyen")) {
             if (payload.S_SoQuyen === -1) {
                 updateData.$inc = { S_SoQuyen: -1 }; // Giảm số lượng đi 1
@@ -105,6 +106,22 @@ class SachService {
                 updateData.$set = { S_SoQuyen: payload.S_SoQuyen }; // Cập nhật số lượng cụ thể
             }
         }
+        */
+       if (payload.hasOwnProperty("action")) {
+            if (payload.action === "borrow") {
+                updateData.$inc = { S_SoQuyen: -1 }; // Giảm số lượng khi mượn
+            } else if (payload.action === "return") {
+                updateData.$inc = { S_SoQuyen: 1 }; // Tăng số lượng khi trả
+            } else {
+                throw new ApiError(400, "Invalid action value. Use 'borrow' or 'return'");
+            }
+        } 
+        // Nếu không có action, cập nhật S_SoQuyen trực tiếp
+        else if (payload.hasOwnProperty("S_SoQuyen")) {
+            updateData.$set = { S_SoQuyen: payload.S_SoQuyen };
+        }
+
+
 
         const result = await this.Sach.findOneAndUpdate(
             filter,

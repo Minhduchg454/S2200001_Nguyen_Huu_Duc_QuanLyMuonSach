@@ -1,6 +1,6 @@
 <template>
   <div v-if="object" class="page page--edit">
-    <h4>Hiệu chỉnh sạch mượn</h4>
+    <h4>Hiệu chỉnh sách mượn</h4>
     <!-- Doi ten thuoc tinh cua form -->
     <ObjectForm
       :borrow="object"

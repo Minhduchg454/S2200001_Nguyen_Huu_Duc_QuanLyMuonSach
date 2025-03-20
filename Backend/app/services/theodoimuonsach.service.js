@@ -51,7 +51,6 @@ class TheodoimuonsachService {
        // Kiểm tra khóa ngoại
         const docgiaService = new DocgiaService(this.client);
         const sachService = new SachService(this.client);
-        const nhanvienService = new NhanvienService(this.client);
 
         // Kiểm tra độc giả
         const maDocGia = await docgiaService.findById(theodoimuonsach.DG_MaDocGia);
@@ -68,7 +67,8 @@ class TheodoimuonsachService {
 
         // Chèn dữ liệu mới
         const result = await this.Theodoimuonsach.insertOne(theodoimuonsach);
-        await sachService.update(theodoimuonsach.S_MaSach,{S_SoQuyen: -1 });
+        console.log(result)
+        await sachService.update(theodoimuonsach.S_MaSach, { action: "borrow" });
         return { insertedId: result.insertedId, ...theodoimuonsach };
     }
 
@@ -93,27 +93,47 @@ class TheodoimuonsachService {
     }
 
     // Cập nhật theo ID
-    async update(id, payload) {
-        if (!ObjectId.isValid(id)) {
-            throw new ApiError(400, "Invalid ID format");
-        }
-        const filter = { _id: new ObjectId(id) };
-        const update = this.extractTheodoimuonsachData(payload);
-        const result = await this.Theodoimuonsach.findOneAndUpdate(
-            filter,
-            { $set: update },
-            { returnDocument: "after" }
-        );
-        return result;
+  async update(id, payload) {
+    const sachService = new SachService(this.client);
+
+    if (!ObjectId.isValid(id)) {
+        throw new ApiError(400, "Invalid ID format");
     }
+
+    const theodoimuonsach = await this.findById(id);
+    if (!theodoimuonsach) {
+        throw new ApiError(404, "Borrowing record not found");
+    }
+
+    const sachId = theodoimuonsach.S_MaSach;
+    const filter = { _id: new ObjectId(id) };
+    const update = this.extractTheodoimuonsachData(payload);
+
+    const result = await this.Theodoimuonsach.findOneAndUpdate(
+        filter,
+        { $set: update },
+        { new: true }
+    );
+
+    if (payload.NgayTra && payload.NgayTra.trim() !== "") {
+        await sachService.update(sachId, { action: "return" });
+    }
+
+    return result;
+}
 
     // Xóa theo ID
     async delete(id) {
+        const sachService = new SachService(this.client);
+        const theodoimuonsach = await this.findById(id);
+        const sachId = theodoimuonsach.S_MaSach;
+
         if (!ObjectId.isValid(id)) {
             throw new ApiError(400, "Invalid ID format");
         }
         const filter = { _id: new ObjectId(id) };
         const result = await this.Theodoimuonsach.findOneAndDelete(filter);
+        await sachService.update(sachId, { action: "return" });
         return result;
     }
 

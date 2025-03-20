@@ -29,6 +29,7 @@ export default {
     const clearUser = () => {
       user.value = null;
       localStorage.removeItem("user");
+      localStorage.removeItem("token");
     };
 
     // Provide các giá trị cho các component con
@@ -39,8 +40,9 @@ export default {
   },
 };
 </script>
+
 <template>
-  <div id="app">
+  <div id="app" :class="{ 'auth--background': $route.meta.layout === 'auth' }">
     <AppHeader v-if="showHeader" />
     <div class="main--custom">
       <router-view />
@@ -56,7 +58,14 @@ export default {
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  height: 100vh; /* Chiều cao toàn màn hình */
-  width: 100%; /* Chiều rộng full */
+  height: 100vh;
+  width: 100%;
+}
+
+.auth--background {
+  background-image: url("./assets/image/background.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 </style>

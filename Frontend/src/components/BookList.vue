@@ -1,5 +1,12 @@
 <script>
+import { inject } from "vue";
+
 export default {
+  setup() {
+    const user = inject("user"); // Lấy user từ App.vue
+    console.log("User từ App.vue:", user);
+    return { user };
+  },
   props: {
     books: { type: Array, default: [] },
     activeIndex: { type: Number, default: -1 },
@@ -23,11 +30,19 @@ export default {
       //Neu key nao ton tai thi lay key do ra
       //Neu key hop le thì lay gia tri trong mang book co tu khoa key. vd book["S_TenSach"]==book.S_TenSach
       //                                                                book["NXB_TenNXB"]==book.NXB_TenNXB
+      if (keyFound == "S_TenSach") {
+        return book[keyFound];
+      }
 
       //Ghep ten lai
       if (keyFound === "DG_Ten") {
         //Ghep hai chuoi lai va loai bo khoang trang
         return `${book.DG_HoLot} ${book.DG_Ten}`.trim();
+      }
+
+      if (this.user.role == "docgia") {
+        const status = book.NgayTra ? "Đã trả" : "Đang mượn";
+        return `${status}: ${book.S_MaSach}`;
       }
 
       if (keyFound == "NgayMuon") {

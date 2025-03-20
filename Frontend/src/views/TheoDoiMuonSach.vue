@@ -17,7 +17,7 @@
 
       <div
         v-if="user.role == 'nhanvien'"
-        class="mt-3 row justify-content-around align-items-center"
+        class="mt-3 d-flex justify-content-center gap-2"
       >
         <button class="btn btn-sm btn-primary" @click="refreshList">
           <i class="fas fa-redo"></i> Làm mới

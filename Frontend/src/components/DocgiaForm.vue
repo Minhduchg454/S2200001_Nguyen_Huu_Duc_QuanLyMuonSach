@@ -3,6 +3,7 @@
     @submit="submitReader"
     :validation-schema="readerFormSchema"
     v-slot="{ meta }"
+    class="form-DocGiaForm"
   >
     <div class="form-group">
       <label for="DG_UserName">Mã Độc Giả</label>
@@ -28,73 +29,85 @@
       <ErrorMessage name="DG_Password" class="error-feedback" />
     </div>
 
-    <label for="DG_HoLot">Họ Lót</label>
-    <Field
-      id="DG_HoLot"
-      name="DG_HoLot"
-      type="text"
-      class="form-control form-control--input"
-      v-model="readerLocal.DG_HoLot"
-    />
-    <ErrorMessage name="DG_HoLot" class="error-feedback" />
+    <div>
+      <label for="DG_HoLot">Họ Lót</label>
+      <Field
+        id="DG_HoLot"
+        name="DG_HoLot"
+        type="text"
+        class="form-control form-control--input"
+        v-model="readerLocal.DG_HoLot"
+      />
+      <ErrorMessage name="DG_HoLot" class="error-feedback" />
+    </div>
 
-    <label for="DG_Ten">Tên</label>
-    <Field
-      id="DG_Ten"
-      name="DG_Ten"
-      type="text"
-      class="form-control form-control--input"
-      v-model="readerLocal.DG_Ten"
-    />
-    <ErrorMessage name="DG_Ten" class="error-feedback" />
+    <div>
+      <label for="DG_Ten">Tên</label>
+      <Field
+        id="DG_Ten"
+        name="DG_Ten"
+        type="text"
+        class="form-control form-control--input"
+        v-model="readerLocal.DG_Ten"
+      />
+      <ErrorMessage name="DG_Ten" class="error-feedback" />
+    </div>
 
-    <label for="DG_NgaySinh">Ngày Sinh</label>
-    <Field
-      id="DG_NgaySinh"
-      name="DG_NgaySinh"
-      type="date"
-      class="form-control form-control--input"
-      v-model="readerLocal.DG_NgaySinh"
-    />
-    <ErrorMessage name="DG_NgaySinh" class="error-feedback" />
+    <div>
+      <label for="DG_NgaySinh">Ngày Sinh</label>
+      <Field
+        id="DG_NgaySinh"
+        name="DG_NgaySinh"
+        type="date"
+        class="form-control form-control--input"
+        v-model="readerLocal.DG_NgaySinh"
+      />
+      <ErrorMessage name="DG_NgaySinh" class="error-feedback" />
+    </div>
 
-    <label for="DG_Phai">Giới Tính</label>
-    <Field
-      id="DG_Phai"
-      name="DG_Phai"
-      as="select"
-      class="form-control form-control--input"
-      v-model="readerLocal.DG_Phai"
-    >
-      <option value="" disabled>Chọn giới tính</option>
-      <option value="Nam">Nam</option>
-      <option value="Nữ">Nữ</option>
-    </Field>
-    <ErrorMessage name="DG_Phai" class="error-feedback" />
+    <div>
+      <label for="DG_Phai">Giới Tính</label>
+      <Field
+        id="DG_Phai"
+        name="DG_Phai"
+        as="select"
+        class="form-control form-control--input"
+        v-model="readerLocal.DG_Phai"
+      >
+        <option value="" disabled>Chọn giới tính</option>
+        <option value="Nam">Nam</option>
+        <option value="Nữ">Nữ</option>
+      </Field>
+      <ErrorMessage name="DG_Phai" class="error-feedback" />
+    </div>
 
-    <label for="DG_DiaChi">Địa chỉ</label>
-    <Field
-      id="DG_DiaChi"
-      name="DG_DiaChi"
-      type="text"
-      class="form-control form-control--input"
-      v-model="readerLocal.DG_DiaChi"
-    />
-    <ErrorMessage name="DG_DiaChi" class="error-feedback" />
+    <div>
+      <label for="DG_DiaChi">Địa chỉ</label>
+      <Field
+        id="DG_DiaChi"
+        name="DG_DiaChi"
+        type="text"
+        class="form-control form-control--input"
+        v-model="readerLocal.DG_DiaChi"
+      />
+      <ErrorMessage name="DG_DiaChi" class="error-feedback" />
+    </div>
 
-    <label for="DG_DienThoai">Điện Thoại</label>
-    <Field
-      id="DG_DienThoa"
-      name="DG_DienThoai"
-      type="text"
-      class="form-control form-control--input"
-      v-model="readerLocal.DG_DienThoai"
-    />
-    <ErrorMessage name="DG_DienThoai" class="error-feedback" />
+    <div>
+      <label for="DG_DienThoai">Điện Thoại</label>
+      <Field
+        id="DG_DienThoa"
+        name="DG_DienThoai"
+        type="text"
+        class="form-control form-control--input"
+        v-model="readerLocal.DG_DienThoai"
+      />
+      <ErrorMessage name="DG_DienThoai" class="error-feedback" />
+    </div>
 
     <div class="form-group">
       <button class="btn btn-primary" type="submit" :disabled="!meta.valid">
-        Lưu
+        <p class="button--text">{{ saveButtonText }}</p>
       </button>
       <button
         v-if="readerLocal._id"
@@ -125,6 +138,7 @@ export default {
   emits: ["submit:reader", "delete:reader"],
   props: {
     reader: { type: Object, required: true },
+    isRegisterMode: { type: Boolean, default: false },
   },
   data() {
     const readerFormSchema = yup.object().shape({
@@ -148,6 +162,11 @@ export default {
       readerLocal: { ...this.reader, DG_UserName: this.reader._id },
       readerFormSchema,
     };
+  },
+  computed: {
+    saveButtonText() {
+      return this.isRegisterMode ? "Đăng ký" : "Lưu";
+    },
   },
   methods: {
     async checkReaderIDExists(readerID) {
@@ -173,7 +192,11 @@ export default {
         "Bạn chưa lưu thay đổi! Bạn có muốn rời đi?"
       );
       if (reply) {
-        this.$router.push({ name: "docgia" });
+        if (this.isRegisterMode) {
+          this.$router.push({ name: "dangnhap" });
+        } else {
+          this.$router.push({ name: "docgia" });
+        }
       }
     },
   },
@@ -182,4 +205,14 @@ export default {
 
 <style scoped>
 @import "@/assets/main.css";
+.form-DocGiaForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.button--text {
+  margin: 0px;
+}
 </style>

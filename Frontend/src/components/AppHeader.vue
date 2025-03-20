@@ -4,32 +4,33 @@
       <a href="/" class="logo--nav">Quản lý mượn sách </a>
       <ul class="nav-links">
         <li>
-          <router-link :to="{ name: 'trangchu' }" class="nav-link"
-            >Sách</router-link
-          >
-        </li>
-        <li v-if="user?.role === 'nhanvien'">
-          <router-link :to="{ name: 'nhaxuatban' }" class="nav-link"
-            >Nhà xuất bản</router-link
-          >
-        </li>
-
-        <!-- Hiển thị nếu là admin -->
-        <li v-if="user?.role === 'nhanvien'">
-          <router-link :to="{ name: 'nhanvien' }" class="nav-link"
-            >Nhân viên</router-link
-          >
+          <router-link :to="{ name: 'trangchu' }" class="nav-link">
+            <i class="fas fa-book"></i> Sách
+          </router-link>
         </li>
 
         <li v-if="user?.role === 'nhanvien'">
-          <router-link :to="{ name: 'docgia' }" class="nav-link"
-            >Độc giả</router-link
-          >
+          <router-link :to="{ name: 'nhaxuatban' }" class="nav-link">
+            <i class="fas fa-building"></i> Nhà xuất bản
+          </router-link>
         </li>
+
+        <li v-if="user?.role === 'nhanvien'">
+          <router-link :to="{ name: 'nhanvien' }" class="nav-link">
+            <i class="fas fa-user-tie"></i> Nhân viên
+          </router-link>
+        </li>
+
+        <li v-if="user?.role === 'nhanvien'">
+          <router-link :to="{ name: 'docgia' }" class="nav-link">
+            <i class="fas fa-users"></i> Độc giả
+          </router-link>
+        </li>
+
         <li>
-          <router-link :to="{ name: 'theodoimuonsach' }" class="nav-link"
-            >Theo dõi mượn sách</router-link
-          >
+          <router-link :to="{ name: 'theodoimuonsach' }" class="nav-link">
+            <i class="fas fa-clipboard-list"></i> Theo dõi mượn sách
+          </router-link>
         </li>
       </ul>
     </div>
@@ -93,18 +94,19 @@ export default {
   font-size: 1.2rem;
   text-transform: uppercase;
   color: white;
+  margin-right: 15px;
 }
 
 .nav-links {
   display: flex;
   list-style: none;
   align-items: center;
-  margin: 0px;
+  gap: 20px;
+  justify-content: center;
+  padding: 10px;
+  margin: 0px 10px;
 }
 
-.nav-links li {
-  margin-right: 10px;
-}
 .logo--nav:hover,
 .nav-link:hover {
   color: aqua;

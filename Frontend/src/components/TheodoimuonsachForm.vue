@@ -54,7 +54,7 @@
       <ErrorMessage name="NgayMuon" class="error-feedback" />
     </div>
 
-    <div class="form-group">
+    <div class="form-group" v-show="user.role !== 'docgia'">
       <label for="NgayTra">Ngày Trả</label>
       <Field
         id="NgayTra"
@@ -131,10 +131,7 @@ export default {
         .test(
           "is-unique",
           "Mã nhân viên không tồn tại.",
-          async function (value) {
-            if (!value) return true;
-            return await this.options.context.checkEmployeerExists(value);
-          }
+          this.checkEmployeerExists
         ),
       NgayMuon: yup.date().required("Ngày mượn không được để trống."),
       NgayTra: yup

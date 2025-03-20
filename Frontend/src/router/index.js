@@ -16,26 +16,31 @@ import TheoDoiMuonSachEdit from "@/views/TheodoimuonsachEdit.vue";
 import TheoDoiMuonSachAdd from "@/views/TheodoimuonsachAdd.vue";
 import DangNhap from "@/views/DangNhap.vue";
 import ThemSachMuonDocgia from "@/views/ThemSachMuonDocgia.vue";
-//Dieu huong trang
+import DangKyDocGia from "@/views/DangKyDocGia.vue";
+
+
 
 //Danh sach cac tuyen duong
 const routes = [
     {
         path: "/",
         name: "trangchu",
-        component: TrangChu
+        component: TrangChu,
+        meta: {requiresAuth: true}
     },
 
     {
         path: "/book/:id",
         name: "trangchu.edit",
         component: BookEdit,
-        props: true // Truyền các biến trong $route.params vào làm props - Nhan gia tri id nhu mot prop cha xuong con
+        props: true, // Truyền các biến trong $route.params vào làm props - Nhan gia tri id nhu mot prop cha xuong con
+        meta: {requiresAuth: true}
     },
     {
         path: "/bookadd",
         name: "trangchu.add",
         component: BookAdd,
+        meta: {requiresAuth: true}
     },
 
     //Nha xuat ban
@@ -43,57 +48,66 @@ const routes = [
         path: "/nhaxuatban",
         name: "nhaxuatban",
         component: NhaXuatBan,
+        meta: {requiresAuth: true}
     },
     
     {
         path: "/nhaxuatban/:id",
         name: "nhaxuatban.edit",
         component: NhaXuatBanEdit,
-        props: true
+        props: true,
+        meta: {requiresAuth: true}
     },
     
     {
         path: "/nhaxuatbanadd",
         name: "nhaxuatban.add",
         component: NhaXuatBanAdd,
+        meta: {requiresAuth: true}
     },
 
     //Nhan vien
     {
         path: "/nhanvien",
         name: "nhanvien",
-        component: NhanVien
+        component: NhanVien,
+        meta: {requiresAuth: true}
     },
 
     {
         path: "/nhanvien/:id",
         name: "nhanvien.edit",
         component: NhanVienEdit,
-        props: true
+        props: true,
+        meta: {requiresAuth: true}
     },
 
     {
         path: "/nhavienadd",
         name: "nhanvien.add",
         component: NhanVienAdd,
+        meta: {requiresAuth: true}
     },
     //docgia
     {
         path: "/docgia",
         name: "docgia",
-        component: DocGia
+        component: DocGia,
+        meta: {requiresAuth: true}
     },
 
     {
         path: "/docgia/:id",
         name: "docgia.edit",
         component: DocGiaEdit,
-        props: true
+        props: true,
+        meta: {requiresAuth: true}
     },
     {
         path: "/docgiaadd",
         name: "docgia.add",
         component: DocGiaAdd,
+        meta: {requiresAuth: true}
     },
 
     //Dang nhap
@@ -101,7 +115,15 @@ const routes = [
         path: "/dangnhap",
         name: "dangnhap",
         component: DangNhap,
-        meta: { noHeader: true },
+        meta: { noHeader: true , layout: "auth"},
+    },
+
+    //Dang ky doc gia
+    {
+        path: "/dangkydocgia",
+        name: "dangkydocgia",
+        component: DangKyDocGia,
+        meta: { noHeader: true , layout: "auth"},
     },
 
 
@@ -110,20 +132,23 @@ const routes = [
     {
         path: "/theodoimuonsach",
         name: "theodoimuonsach",
-        component: TheoDoiMuonSach
+        component: TheoDoiMuonSach,
+        meta: {requiresAuth: true}
     },
 
     {
         path: "/theodoimuonsach/:id",
         name: "theodoimuonsach.edit",
         component: TheoDoiMuonSachEdit,
-        props: true
+        props: true,
+        meta: {requiresAuth: true}
     },
 
     {
         path: "/themsachmuonDocgiaadd",
         name: "theodoimuonsach.add",
         component: TheoDoiMuonSachAdd,
+        meta: {requiresAuth: true}
     },
 
     //Them sach muon doc gia:
@@ -131,7 +156,8 @@ const routes = [
         path: "/themsachmuonDocgia/:bookId/:userId",
         name: "themsachmuonDocgia.add",
         component: ThemSachMuonDocgia,
-        props: true
+        props: true,
+        meta: {requiresAuth: true}
     },
 
     //Khong dung duong dan
@@ -148,6 +174,20 @@ const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
     routes,
 })
+
+router.beforeEach((to, from, next) => {
+    const isAuthenticated = localStorage.getItem("token");
+
+    // Nếu trang yêu cầu xác thực và không có token
+    if (to.meta.requiresAuth && !isAuthenticated) {
+        console.log("Không có token, chuyển hướng về đăng nhập");
+        next({ name: "dangnhap" });
+    }
+    else {
+        next();
+    }
+});
+
 
 export default router;
 

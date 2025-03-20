@@ -15,7 +15,6 @@ export default {
 
 <template>
   <div>
-    <p>{{ user.role }}</p>
     <div
       class="p-1"
       :class="borrow.NgayTra ? 'text-green-600' : 'text-red-600'"

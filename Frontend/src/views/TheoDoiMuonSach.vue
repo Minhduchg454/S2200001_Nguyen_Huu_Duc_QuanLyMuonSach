@@ -7,7 +7,6 @@
     <!-- Hien thi danh sach -->
     <div class="mt-3 col-md-6">
       <h4>Theo dõi mượn sách</h4>
-      <p>{{ user.role }} {{ user.id }}</p>
       <!-- v-model: đồng bộ cha và con  -->
       <List
         v-if="filteredObjectsCount > 0"
@@ -16,7 +15,10 @@
       />
       <p v-else>Không có mã sách hoặc mã độc giả nào.</p>
 
-      <div class="mt-3 row justify-content-around align-items-center">
+      <div
+        v-if="user.role == 'nhanvien'"
+        class="mt-3 row justify-content-around align-items-center"
+      >
         <button class="btn btn-sm btn-primary" @click="refreshList">
           <i class="fas fa-redo"></i> Làm mới
         </button>
@@ -35,9 +37,9 @@
     <div class="mt-3 col-md-6">
       <div v-if="activeObject">
         <h4>Chi tiết sách mượn</h4>
-
         <Card :borrow="activeObject" />
         <router-link
+          v-if="user.role == 'nhanvien'"
           :to="{
             name: 'theodoimuonsach.edit',
             params: { id: activeObject._id },
@@ -128,9 +130,13 @@ export default {
     async retrieveObjects() {
       console.log("User ID:", this.user.id);
       try {
-        this.objects = await ObjectsService.getAll({
-          DG_MaDocGia: this.user.id,
-        });
+        if (this.user.role == "docgia") {
+          this.objects = await ObjectsService.getAll({
+            DG_MaDocGia: this.user.id,
+          });
+        } else {
+          this.objects = await ObjectsService.getAll();
+        }
       } catch (error) {
         console.log(error);
       }

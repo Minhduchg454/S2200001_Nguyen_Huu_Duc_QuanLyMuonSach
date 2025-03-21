@@ -79,18 +79,41 @@ class DocgiaService {
 
     // Cập nhật độc giả theo ID
     async update(id, payload) {
-        const filter = {
-            _id: id,
-        };
-        const update = await this.extractDocgiaData(payload);
+        const filter = { _id: id };
+
+        // Lấy dữ liệu hiện tại của độc giả từ database
+        const oldData = await this.findById(id);
+        if (!oldData) {
+            throw new Error("Độc giả không tồn tại");
+        }
+    
+
+        // Chỉ lấy các trường có thay đổi
+        const update = {};
+        for (const key in payload) {
+            if (payload[key] !== oldData[key]) {
+                update[key] = payload[key];
+            }
+        }
+
+        // Nếu không có dữ liệu nào thay đổi, không cần cập nhật
+        if (Object.keys(update).length === 0) {
+            return oldData;
+        }
+
+        // Kiểm tra mật khẩu có được cập nhật hay không
         if (update.DG_Password) {
             update.DG_Password = await bcrypt.hash(update.DG_Password, 10);
         }
+        console.log("Du lieu loc",update)
+
+        // Cập nhật dữ liệu
         const result = await this.Docgia.findOneAndUpdate(
             filter,
             { $set: update },
             { returnDocument: "after" }
         );
+
         return result;
     }
 

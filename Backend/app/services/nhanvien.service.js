@@ -69,12 +69,31 @@ class NhanvienService {
     }
 
     async update(id, payload) {
+        // Lấy dữ liệu cũ từ database
         const filter = { _id: id };
-        const update = await this.extractNhanvienData(payload);
-        
+
+        const oldData = await this.Nhanvien.findOne(filter);
+        if (!oldData) {
+            throw new Error("Nhân viên không tồn tại!");
+        }
+
+        // Chỉ giữ lại những trường có sự thay đổi
+        let update = {};
+        for (let key in payload) {
+            if (payload[key] !== oldData[key]) {
+                update[key] = payload[key];
+            }
+        }
+
+        // Nếu có trường NV_Password mới thì mới mã hóa
         if (update.NV_Password) {
             update.NV_Password = await bcrypt.hash(update.NV_Password, 10);
         }
+
+        // Nếu không có gì thay đổi, không cần update
+        if (Object.keys(update).length === 0) {
+            return oldData;
+        }  
        
         const result = await this.Nhanvien.findOneAndUpdate(
             filter,

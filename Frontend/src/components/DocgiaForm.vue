@@ -3,7 +3,7 @@
     @submit="submitReader"
     :validation-schema="readerFormSchema"
     v-slot="{ meta }"
-    class="form-DocGiaForm"
+    class="form-CustomForm"
   >
     <div class="form-group">
       <label for="DG_UserName">Mã Độc Giả</label>
@@ -13,7 +13,7 @@
         type="text"
         class="form-control form-control--input"
         v-model="readerLocal.DG_UserName"
-        :disabled="isAddMode"
+        :disabled="isEditMode"
       />
       <ErrorMessage name="DG_UserName" class="error-feedback" />
     </div>
@@ -140,7 +140,7 @@ export default {
   props: {
     reader: { type: Object, required: true },
     isRegisterMode: { type: Boolean, default: false },
-    isAddMode: { type: Boolean, default: false },
+    isEditMode: { type: Boolean, default: false },
   },
   data() {
     const readerFormSchema = yup.object().shape({
@@ -207,12 +207,6 @@ export default {
 
 <style scoped>
 @import "@/assets/main.css";
-.form-DocGiaForm {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
 
 .button--text {
   margin: 0px;

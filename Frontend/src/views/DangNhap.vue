@@ -39,7 +39,6 @@ export default {
         console.log("Token đã lưu:", localStorage.getItem("token"));
         console.log("User đã lưu:", JSON.parse(localStorage.getItem("user")));
 
-        alert("Đăng nhập thành công");
         this.$router.push({ name: "trangchu" });
       } catch (error) {
         console.log(error);

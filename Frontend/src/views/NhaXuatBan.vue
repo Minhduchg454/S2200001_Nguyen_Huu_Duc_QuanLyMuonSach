@@ -5,9 +5,9 @@
         <InputSearch v-model="searchText" />
       </div>
     </div>
-    <div class="row mt-3 row-cols-1 row-cols-md-2">
+    <div class="row mt-3 row-cols-1 row-cols-md-2 plus">
       <!-- Hien thi danh sach -->
-      <div>
+      <div class="box--custom">
         <h4>Nhà xuất bản</h4>
 
         <!-- v-model: đồng bộ cha và con  -->
@@ -15,6 +15,7 @@
           v-if="filteredObjectsCount > 0"
           :books="filteredObjects"
           v-model:activeIndex="activeIndex"
+          style="padding: 0px"
         />
         <p v-else>Không có nhà xuất bản nào.</p>
 
@@ -34,22 +35,20 @@
       </div>
 
       <!-- Card -->
-      <div>
-        <div v-if="activeObject">
-          <h4>Chi tiết Nhà xuất bản</h4>
-          <Card :nhaxuatban="activeObject" />
+      <div v-if="activeObject" class="box--custom">
+        <h4>Chi tiết Nhà xuất bản</h4>
+        <Card :nhaxuatban="activeObject" />
 
-          <router-link
-            :to="{
-              name: 'nhaxuatban.edit',
-              params: { id: activeObject._id },
-            }"
-          >
-            <span class="btn btn-sm btn--edit">
-              <i class="fas fa-edit"></i> Hiệu chỉnh
-            </span>
-          </router-link>
-        </div>
+        <router-link
+          :to="{
+            name: 'nhaxuatban.edit',
+            params: { id: activeObject._id },
+          }"
+        >
+          <span class="btn btn-sm btn--edit">
+            <i class="fas fa-edit"></i> Hiệu chỉnh
+          </span>
+        </router-link>
       </div>
     </div>
   </div>

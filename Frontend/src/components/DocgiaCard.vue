@@ -1,18 +1,10 @@
-<script>
-export default {
-  props: {
-    reader: { type: Object, required: true },
-  },
-};
-</script>
-
 <template>
   <div>
     <div class="p-1">
       <strong>Mã độc giả:</strong>
       {{ reader._id }}
     </div>
-    <div class="p-1">
+    <div class="p-1" v-show="user.id === reader._id">
       <strong>Mật khẩu:</strong>
       {{ reader.DG_Password }}
     </div>
@@ -42,3 +34,18 @@ export default {
     </div>
   </div>
 </template>
+
+<script>
+import { inject } from "vue";
+
+export default {
+  setup() {
+    const user = inject("user"); // Lấy user từ App.vue
+    console.log("User từ App.vue:", user);
+    return { user };
+  },
+  props: {
+    reader: { type: Object, required: true },
+  },
+};
+</script>

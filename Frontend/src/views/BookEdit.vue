@@ -1,9 +1,9 @@
 <template>
-  <div v-if="book" class="page page--edit">
+  <div v-if="book" class="page">
     <h4>Hiệu chỉnh sách</h4>
     <BookForm
       :book="book"
-      :isAddMode="true"
+      :isEditMode="true"
       @submit:book="updateBook"
       @delete:book="deleteBook"
     />

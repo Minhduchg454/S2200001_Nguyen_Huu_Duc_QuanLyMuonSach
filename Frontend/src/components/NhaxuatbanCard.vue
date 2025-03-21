@@ -1,11 +1,3 @@
-<script>
-export default {
-  props: {
-    nhaxuatban: { type: Object, required: true },
-  },
-};
-</script>
-
 <template>
   <div>
     <div class="p-1">
@@ -22,3 +14,11 @@ export default {
     </div>
   </div>
 </template>
+
+<script>
+export default {
+  props: {
+    nhaxuatban: { type: Object, required: true },
+  },
+};
+</script>

@@ -1,35 +1,41 @@
 <template>
   <nav class="navbar-custom">
     <div class="custom-left">
-      <a href="/" class="logo--nav">{{ logoName() }} </a>
+      <a href="/" class="logo--nav">
+        <img src="@/assets/image/logo_app.png" alt="Logo" class="logo-image" />
+        <span class="logo-text">{{ logoName() }}</span>
+      </a>
       <ul class="nav-links">
         <li>
           <router-link :to="{ name: 'trangchu' }" class="nav-link">
-            <i class="fas fa-book"></i> Sách
+            <i class="fas fa-book"></i> <span class="nav-text">Sách</span>
           </router-link>
         </li>
 
         <li v-if="user?.role === 'nhanvien'">
           <router-link :to="{ name: 'nhaxuatban' }" class="nav-link">
-            <i class="fas fa-building"></i> Nhà xuất bản
+            <i class="fas fa-building"></i>
+            <span class="nav-text">Nhà xuất bản</span>
           </router-link>
         </li>
 
         <li v-if="user?.role === 'nhanvien'">
           <router-link :to="{ name: 'nhanvien' }" class="nav-link">
-            <i class="fas fa-user-tie"></i> Nhân viên
+            <i class="fas fa-user-tie"></i>
+            <span class="nav-text">Nhân viên</span>
           </router-link>
         </li>
 
         <li v-if="user?.role === 'nhanvien'">
           <router-link :to="{ name: 'docgia' }" class="nav-link">
-            <i class="fas fa-users"></i> Độc giả
+            <i class="fas fa-users"></i> <span class="nav-text">Độc giả</span>
           </router-link>
         </li>
 
         <li>
           <router-link :to="{ name: 'theodoimuonsach' }" class="nav-link">
-            <i class="fas fa-clipboard-list"></i> Theo dõi mượn sách
+            <i class="fas fa-clipboard-list"></i>
+            <span class="nav-text">Theo dõi mượn sách</span>
           </router-link>
         </li>
       </ul>
@@ -38,12 +44,12 @@
     <!-- Nút Đăng xuất -->
     <div class="custom--right">
       <span class="right--info" v-if="user">Xin chào, {{ user.userName }}</span>
-      <button v-if="user" class="btn btn-danger btn-sm" @click="logout">
+      <button v-if="user" class="logout--custom" @click="logout">
         Đăng xuất
       </button>
-      <router-link v-else :to="{ name: 'dangnhap' }" class="nav-link"
-        >Đăng nhập</router-link
-      >
+      <router-link v-else :to="{ name: 'dangnhap' }" class="nav-link">
+        Đăng nhập
+      </router-link>
     </div>
   </nav>
 </template>
@@ -78,57 +84,5 @@ export default {
 </script>
 
 <style scoped>
-.navbar-custom {
-  padding: 10px;
-  background-color: rgb(5, 12, 119);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  color: white;
-  height: 5rem;
-}
-
-.custom-left {
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-}
-
-.logo--nav {
-  font-weight: bold;
-  text-decoration: none;
-  font-size: 1.2rem;
-  text-transform: uppercase;
-  color: white;
-  margin-right: 15px;
-}
-
-.nav-links {
-  display: flex;
-  list-style: none;
-  align-items: center;
-  gap: 20px;
-  justify-content: center;
-  padding: 10px;
-  margin: 0px 10px;
-}
-
-.logo--nav:hover,
-.nav-link:hover {
-  color: aqua;
-}
-
-/* Bên phải */
-.custom--right {
-  display: flex;
-  margin: 0px;
-  align-items: center;
-}
-
-.right--info {
-  margin-right: 5px;
-}
-.btn-sm {
-  margin-left: 10px;
-}
+@import "@/assets//main.css";
 </style>

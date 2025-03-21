@@ -6,14 +6,15 @@
       </div>
     </div>
 
-    <div class="row mt-3 row-cols-1 row-cols-md-2">
+    <div class="row mt-3 row-cols-1 row-cols-md-2 plus">
       <!-- Cột danh sách sách -->
-      <div>
+      <div class="box--custom">
         <h4>Danh sách sách</h4>
         <BookList
           v-if="filteredBooksCount > 0"
           :books="filteredBooks"
           v-model:activeIndex="activeIndex"
+          style="padding: 0px"
         />
         <p v-else>Không có sách nào.</p>
 
@@ -36,7 +37,7 @@
       </div>
 
       <!-- Cột chi tiết sách -->
-      <div v-if="activeBook">
+      <div v-if="activeBook" class="box--custom">
         <h4>Chi tiết Sách</h4>
         <BookCard :book="activeBook" />
 

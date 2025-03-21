@@ -14,5 +14,8 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  margin: auto;
+  padding: 10px;
+  margin-top: 50vh;
 }
 </style>

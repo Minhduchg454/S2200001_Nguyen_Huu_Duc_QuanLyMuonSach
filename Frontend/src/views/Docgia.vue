@@ -6,9 +6,9 @@
         <InputSearch v-model="searchText" />
       </div>
     </div>
-    <div class="row mt-3 row-cols-1 row-cols-md-2">
+    <div class="row mt-3 row-cols-1 row-cols-md-2 plus">
       <!-- Danh sach  - trai -->
-      <div>
+      <div class="box--custom">
         <h4>Độc giả</h4>
 
         <!-- v-model: đồng bộ cha và con  -->
@@ -16,6 +16,7 @@
           v-if="filteredObjectsCount > 0"
           :books="filteredObjects"
           v-model:activeIndex="activeIndex"
+          style="padding: 0px"
         />
         <p v-else>Không có độc giả nào.</p>
 
@@ -34,22 +35,21 @@
         </div>
       </div>
       <!-- Chi tiet - phai -->
-      <div>
-        <div v-if="activeObject">
-          <h4>Chi tiết độc giả</h4>
-          <Card :reader="activeObject" />
+      <div v-if="activeObject" class="box--custom">
+        <h4>Chi tiết độc giả</h4>
+        <Card :reader="activeObject" />
 
-          <router-link
-            :to="{
-              name: 'docgia.edit',
-              params: { id: activeObject._id },
-            }"
-          >
-            <span class="btn btn-sm btn--edit">
-              <i class="fas fa-edit"></i> Hiệu chỉnh
-            </span>
-          </router-link>
-        </div>
+        <router-link
+          :to="{
+            name: 'docgia.edit',
+            params: { id: activeObject._id },
+          }"
+          v-show="user.id === activeObject._id"
+        >
+          <span class="btn btn-sm btn--edit">
+            <i class="fas fa-edit"></i> Hiệu chỉnh
+          </span>
+        </router-link>
       </div>
     </div>
   </div>
@@ -60,8 +60,14 @@ import Card from "@/components/DocgiaCard.vue";
 import InputSearch from "@/components/InputSearch.vue";
 import List from "@/components/BookList.vue";
 import ObjectsService from "@/services/docgia.service";
+import { inject } from "vue";
 
 export default {
+  setup() {
+    const user = inject("user"); // Lấy user từ App.vue
+    console.log("User từ App.vue:", user);
+    return { user };
+  },
   components: {
     Card,
     InputSearch,

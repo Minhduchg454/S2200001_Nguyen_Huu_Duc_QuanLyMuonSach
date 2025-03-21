@@ -1,3 +1,21 @@
+<template>
+  <div class="input-group">
+    <input
+      type="text"
+      class="form-control"
+      placeholder="Nhập thông tin cần tìm"
+      :value="modelValue"
+      @input="updateModelValue"
+      @keyup.enter="submit"
+    />
+    <div class="input-group-append">
+      <button class="btn btn-outline-secondary" type="button" @click="submit">
+        <i class="fas fa-search"></i> Tìm kiếm
+      </button>
+    </div>
+  </div>
+</template>
+
 <script>
 export default {
   //Nhan du lieu tu component cha
@@ -22,6 +40,24 @@ export default {
 };
 </script>
 
+<style>
+.input-group {
+  margin-top: 10px;
+  border-radius: 8px;
+  display: flex;
+  background-color: white;
+  transition: transform 0.2s ease;
+  cursor: pointer;
+  border: 0.5px solid rgba(0, 0, 0, 0.2);
+  padding: 5px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.form-control {
+  border: none;
+}
+</style>
+
 <!-- Giao dien 
     khi nguoi dung nhap du lieu @input thi updateModelValue duoc goi
     + phat su kien update:modelvalue cap nhat du lieu modelvalue tren component cha
@@ -31,33 +67,6 @@ export default {
 	•	Phát sự kiện "submit" để component cha biết rằng người dùng đã thực hiện tìm kiếm.
 -->
 
-<template>
-  <div class="input-group">
-    <input
-      type="text"
-      class="form-control"
-      placeholder="Nhập thông tin cần tìm"
-      :value="modelValue"
-      @input="updateModelValue"
-      @keyup.enter="submit"
-    />
-    <div class="input-group-append">
-      <button class="btn btn-outline-secondary" type="button" @click="submit">
-        <i class="fas fa-search"></i> Tìm kiếm
-      </button>
-    </div>
-  </div>
-</template>
-
-<style>
-.input-group {
-  border-radius: 8px;
-  border: black solid 1px;
-}
-.form-control {
-  border: none;
-}
-</style>
 <!-- Component co the tai su dung o nhieu noi, mot thanh phan cua trang weg 
     Trong Vue, component có thể chứa component khác. 
         +Component chứa được gọi là component cha (parent component), còn component được chứa bên trong gọi là component con (child component).

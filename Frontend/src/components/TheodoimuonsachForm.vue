@@ -3,6 +3,7 @@
     @submit="submitBorrow"
     :validation-schema="borrowFormSchema"
     v-slot="{ meta }"
+    class="form-CustomForm"
   >
     <div class="form-group">
       <label for="DG_MaDocGia">Mã Độc Giả</label>

@@ -1,3 +1,12 @@
+<template>
+  <div id="app" :class="{ 'auth--background': $route.meta.layout === 'auth' }">
+    <AppHeader v-if="showHeader" />
+    <div class="main--custom">
+      <router-view />
+    </div>
+  </div>
+</template>
+
 <script>
 import AppHeader from "@/components/AppHeader.vue";
 import { provide, ref } from "vue";
@@ -40,15 +49,6 @@ export default {
   },
 };
 </script>
-
-<template>
-  <div id="app" :class="{ 'auth--background': $route.meta.layout === 'auth' }">
-    <AppHeader v-if="showHeader" />
-    <div class="main--custom">
-      <router-view />
-    </div>
-  </div>
-</template>
 
 <style>
 @import "/src/assets/main.css";

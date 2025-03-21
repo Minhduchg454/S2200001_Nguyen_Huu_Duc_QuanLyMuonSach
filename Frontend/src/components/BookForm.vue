@@ -4,6 +4,7 @@
     @submit="submitBook"
     :validation-schema="bookFormSchema"
     v-slot="{ meta }"
+    class="form-CustomForm"
   >
     <div class="form-group">
       <!-- 
@@ -17,76 +18,89 @@
         type="text"
         class="form-control form-control--input"
         v-model="bookLocal.S_MaSach"
-        :disabled="isAddMode"
+        :disabled="isEditMode"
       />
       <ErrorMessage name="bookID" class="error-feedback" />
     </div>
 
     <!-- Trường S_TenSach -->
-    <label for="S_TenSach">Tên Sách</label>
-    <Field
-      id="S_TenSach"
-      name="S_TenSach"
-      type="text"
-      class="form-control form-control--input"
-      v-model="bookLocal.S_TenSach"
-    />
-    <ErrorMessage name="S_TenSach" class="error-feedback" />
+    <div class="form-group">
+      <label for="S_TenSach">Tên Sách</label>
+      <Field
+        id="S_TenSach"
+        name="S_TenSach"
+        type="text"
+        class="form-control form-control--input"
+        v-model="bookLocal.S_TenSach"
+      />
+      <ErrorMessage name="S_TenSach" class="error-feedback" />
+    </div>
 
     <!-- Trường S_DonGia -->
-    <label for="S_DonGia">Đơn Giá</label>
-    <Field
-      id="S_DonGia"
-      name="S_DonGia"
-      type="number"
-      class="form-control form-control--input"
-      v-model="bookLocal.S_DonGia"
-    />
-    <ErrorMessage name="S_DonGia" class="error-feedback" />
+    <div>
+      <label for="S_DonGia">Đơn Giá</label>
+      <Field
+        id="S_DonGia"
+        name="S_DonGia"
+        type="number"
+        class="form-control form-control--input"
+        v-model="bookLocal.S_DonGia"
+      />
+      <ErrorMessage name="S_DonGia" class="error-feedback" />
+    </div>
 
     <!-- Trường S_SoQuyen -->
-    <label for="S_SoQuyen">Số Quyển</label>
-    <Field
-      id="S_SoQuyen"
-      name="S_SoQuyen"
-      type="number"
-      class="form-control form-control--input"
-      v-model="bookLocal.S_SoQuyen"
-    />
-    <ErrorMessage name="S_SoQuyen" class="error-feedback" />
+    <div>
+      <label for="S_SoQuyen">Số Quyển</label>
+      <Field
+        id="S_SoQuyen"
+        name="S_SoQuyen"
+        type="number"
+        class="form-control form-control--input"
+        v-model="bookLocal.S_SoQuyen"
+      />
+      <ErrorMessage name="S_SoQuyen" class="error-feedback" />
+    </div>
 
     <!-- Trường S_NamXuatBan -->
-    <label for="S_NamXuatBan">Năm Xuất Bản</label>
-    <Field
-      id="S_NamXuatBan"
-      name="S_NamXuatBan"
-      type="number"
-      class="form-control form-control--input"
-      v-model="bookLocal.S_NamXuatBan"
-    />
-    <ErrorMessage name="S_NamXuatBan" class="error-feedback" />
+    <div>
+      <label for="S_NamXuatBan">Năm Xuất Bản</label>
+      <Field
+        id="S_NamXuatBan"
+        name="S_NamXuatBan"
+        type="number"
+        class="form-control form-control--input"
+        v-model="bookLocal.S_NamXuatBan"
+      />
+      <ErrorMessage name="S_NamXuatBan" class="error-feedback" />
+    </div>
 
     <!-- Trường S_TacGiaNguonGoc -->
-    <label for="S_TacGiaNguoGoc">Tác Giả - Nguồn Gốc</label>
-    <Field
-      id="S_TacGiaNguoGoc"
-      name="S_TacGiaNguoGoc"
-      type="text"
-      class="form-control form-control--input"
-      v-model="bookLocal.S_TacGiaNguonGoc"
-    />
-    <ErrorMessage name="S_TacGiaNguoGoc" class="error-feedback" />
+    <div>
+      <label for="S_TacGiaNguoGoc">Tác Giả - Nguồn Gốc</label>
+      <Field
+        id="S_TacGiaNguoGoc"
+        name="S_TacGiaNguoGoc"
+        type="text"
+        class="form-control form-control--input"
+        v-model="bookLocal.S_TacGiaNguonGoc"
+      />
+      <ErrorMessage name="S_TacGiaNguoGoc" class="error-feedback" />
+    </div>
 
     <!-- Trường S_MaNXB -->
-    <label for="S_MaNXB">Mã Nhà Xuất Bản</label>
-    <Field
-      id="S_MaNXB"
-      name="S_MaNXB"
-      type="text"
-      class="form-control form-control--input"
-      v-model="bookLocal.S_MaNXB"
-    />
-    <ErrorMessage name="S_MaNXB" class="error-feedback" />
+    <div>
+      <label for="S_MaNXB">Mã Nhà Xuất Bản</label>
+      <Field
+        id="S_MaNXB"
+        name="S_MaNXB"
+        type="text"
+        class="form-control form-control--input"
+        v-model="bookLocal.S_MaNXB"
+      />
+      <ErrorMessage name="S_MaNXB" class="error-feedback" />
+    </div>
+
     <!-- <p>{{ this.bookLocal.S_MaSach }} và {{ this.initialBookID }}</p> -->
 
     <div class="form-group">
@@ -127,7 +141,7 @@ export default {
   emits: ["submit:book", "delete:book"],
   props: {
     book: { type: Object, required: true },
-    isAddMode: { type: Boolean, default: false },
+    isEditMode: { type: Boolean, default: false },
   },
   data() {
     const bookFormSchema = yup.object().shape({

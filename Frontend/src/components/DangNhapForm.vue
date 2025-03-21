@@ -15,6 +15,7 @@
         type="text"
         class="form-control form-control--input"
         v-model="userLocal.userName"
+        autofocus
       />
       <ErrorMessage name="userName" class="error-feedback" />
     </div>
@@ -32,7 +33,12 @@
     </div>
 
     <div class="controlButton">
-      <button class="btn btn-primary" type="submit" :disabled="!meta.valid">
+      <button
+        class="btn--custom"
+        type="submit"
+        :disabled="!meta.valid"
+        @click="submitLogin"
+      >
         Đăng nhập
       </button>
       <br />
@@ -101,18 +107,37 @@ export default {
   border-radius: 15px;
   padding: 10px;
 }
+
 .controlButton {
   margin-top: 20px;
   display: flex;
   align-items: center;
-  justify-content: space-around;
+  justify-content: center;
   flex-direction: column;
 }
 
-.btn {
+.btn--custom {
   width: 150px;
+  border-radius: 5px;
+  color: white;
+  background-color: blue;
+  border: none;
+  transition: transform 0.2s ease, background-color 0.2s ease;
 }
 
+/* Khi click vào nút, hiệu ứng phóng to */
+.btn--custom:hover {
+  transform: scale(1.1);
+}
+
+/* Khi nút bị disable */
+.btn--custom:disabled {
+  background-color: gray;
+  cursor: not-allowed;
+  /* Bieu tuong com tro thanh dau huy */
+  opacity: 0.6;
+  /* Làm mờ */
+}
 .btn--link {
   background: none;
   border: none;
@@ -120,5 +145,12 @@ export default {
   cursor: pointer;
   font-size: 1rem;
   padding: 0;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+  /* Hieu ung chuyen doi, cham hon 0.2s truoc khi hoan thanh */
 }
+.btn--link:hover {
+  transform: scale(1.1);
+}
+
+@import "@/assets//main.css";
 </style>

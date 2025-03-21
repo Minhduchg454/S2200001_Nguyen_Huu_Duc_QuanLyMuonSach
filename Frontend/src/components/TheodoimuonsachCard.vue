@@ -1,19 +1,3 @@
-<script>
-import { inject } from "vue";
-
-export default {
-  setup() {
-    const user = inject("user"); // Lấy user từ App.vue
-    console.log("User từ App.vue:", user);
-    return { user };
-  },
-  props: {
-    borrow: { type: Object, required: true },
-  },
-  methods: {},
-};
-</script>
-
 <template>
   <div>
     <div class="p-1">
@@ -38,6 +22,22 @@ export default {
     </div>
   </div>
 </template>
+
+<script>
+import { inject } from "vue";
+
+export default {
+  setup() {
+    const user = inject("user"); // Lấy user từ App.vue
+    console.log("User từ App.vue:", user);
+    return { user };
+  },
+  props: {
+    borrow: { type: Object, required: true },
+  },
+  methods: {},
+};
+</script>
 
 <style scoped>
 .text-red-600 {

@@ -3,6 +3,7 @@
     @submit="submitPublisher"
     :validation-schema="publisherFormSchema"
     v-slot="{ meta }"
+    class="form-CustomForm"
   >
     <div class="form-group">
       <label for="NXB_Ma">Mã Nhà Xuất Bản</label>
@@ -12,30 +13,34 @@
         type="text"
         class="form-control form-control--input"
         v-model="publisherLocal.NXB_Ma"
-        :disabled="isAddMode"
+        :disabled="isEditMode"
       />
       <ErrorMessage name="NXB_Ma" class="error-feedback" />
     </div>
 
-    <label for="NXB_TenNXB">Tên Nhà Xuất Bản</label>
-    <Field
-      id="NXB_TenNXB"
-      name="NXB_TenNXB"
-      type="text"
-      class="form-control form-control--input"
-      v-model="publisherLocal.NXB_TenNXB"
-    />
-    <ErrorMessage name="NXB_TenNXB" class="error-feedback" />
+    <div>
+      <label for="NXB_TenNXB">Tên Nhà Xuất Bản</label>
+      <Field
+        id="NXB_TenNXB"
+        name="NXB_TenNXB"
+        type="text"
+        class="form-control form-control--input"
+        v-model="publisherLocal.NXB_TenNXB"
+      />
+      <ErrorMessage name="NXB_TenNXB" class="error-feedback" />
+    </div>
 
-    <label for="NXB_DiaChi">Địa Chỉ</label>
-    <Field
-      id="NXB_DiaChi"
-      name="NXB_DiaChi"
-      type="text"
-      class="form-control form-control--input"
-      v-model="publisherLocal.NXB_DiaChi"
-    />
-    <ErrorMessage name="NXB_DiaChi" class="error-feedback" />
+    <div>
+      <label for="NXB_DiaChi">Địa Chỉ</label>
+      <Field
+        id="NXB_DiaChi"
+        name="NXB_DiaChi"
+        type="text"
+        class="form-control form-control--input"
+        v-model="publisherLocal.NXB_DiaChi"
+      />
+      <ErrorMessage name="NXB_DiaChi" class="error-feedback" />
+    </div>
 
     <div class="form-group">
       <button class="btn btn-primary" type="submit" :disabled="!meta.valid">
@@ -72,7 +77,7 @@ export default {
   emits: ["submit:publisher", "delete:publisher"],
   props: {
     publisher: { type: Object, required: true },
-    isAddMode: { type: Boolean, default: false },
+    isEditMode: { type: Boolean, default: false },
   },
   data() {
     const publisherFormSchema = yup.object().shape({

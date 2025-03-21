@@ -1,11 +1,24 @@
 @import './base.css';
 
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  background-color: #F5F5F7;
+}
+
 #app {
   width: 100%;
-  height: 100vh;
   margin: 0px;
   padding: 0px;
   font-weight: normal;
+  background-color: #F5F5F7;
 }
 
 a,
@@ -19,15 +32,12 @@ a,
 @media (hover: hover) {
 }
 
-@media (max-width: 1024px) {
-  .right--info {
-      display: none;
-    }
-  
+
+
+
+.col-12{
+  padding: 0px;
 }
-
-
-
 
 
 /* color palette from <https://github.com/vuejs/theme> */
@@ -150,12 +160,212 @@ Form {
   max-width: 500px;
 }
 
-.form-control--input {
-  border: black solid 1px;
-  width: 100%;
-  min-width: 300px;
+.page--edit ,
+.box--custom {
+  background-color: white;
+  border-radius: 10px;
+  padding: 15px;
+  border: 0.5px solid transparent;
+  margin: 10px;
+  max-width: 500px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
 }
 
-.page--edit {
-  flex-grow: 1;
+.plus {
+  justify-content: center;
+}
+
+.form-control--input{
+  background-color: white;
+  width: 100%;
+  border: black solid 1px;
+  min-width: 400px;
+  padding: 5px;
+}
+
+.form-control--input:disabled{
+  background-color: rgb(199, 198, 198);
+  border: none;
+}
+
+.form-CustomForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  
+}
+
+.form-CustomForm button {
+  margin: 15px;
+  min-width: 80px;
+}
+
+
+
+
+.p-1 {
+  padding: 8px;
+  border-bottom: 1px solid #ddd;
+  font-size: 1rem;
+  max-width: 100%;
+  /* Giới hạn chiều rộng */
+  word-wrap: break-word;
+  /* Xuống dòng khi quá dài */
+  overflow-wrap: break-word;
+  /* Đảm bảo chữ không tràn */
+}
+
+
+@media (max-width: 1024px) {
+  .right--info {
+    display: none;
+  }
+
+  .nav-text {
+    display: none;
+  }
+
+  .logo-text {
+    display: none;
+  }
+}
+
+
+/* Appheader */
+.navbar-custom {
+  padding: 10px;
+  background-color: rgb(5, 12, 119);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: white;
+  height: 5rem;
+  position: sticky;
+  top: 0;
+  z-index: 9999;
+    /* Cố định ở trên cùng */
+}
+
+.custom-left {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.logo--nav {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  /* Khoảng cách giữa logo và chữ */
+  font-weight: bold;
+  text-decoration: none;
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  color: white;
+  margin-right: 10px;
+}
+
+.logo-image {
+  width: 50px;
+  /* Kích thước logo */
+  height: auto;
+}
+
+.nav-links {
+  display: flex;
+  list-style: none;
+  align-items: center;
+  gap: 20px;
+  justify-content: center;
+  padding: 10px;
+  margin: 0px 10px;
+}
+
+.logout--custom {
+  background-color: #e74c3c;
+  margin: 5px;
+  color: white;
+  border-radius: 5px;
+  margin: 10px;
+  transition: transform 0.2s ease;
+  padding: 5px;
+  border: none;
+}
+
+.logout--custom:hover,
+.logo--nav:hover,
+.nav-link:hover {
+  transform: scale(1.1);
+}
+
+/* Bên phải */
+.custom--right {
+  display: flex;
+  margin: 0px;
+  align-items: center;
+}
+
+.right--info {
+  margin-right: 5px;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  text-decoration: none;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 5px;
+  transition: transform 0.2s ease-in-out, border 0.2s ease-in-out;
+}
+
+.router-link-active {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 5px;
+  padding: 8px 12px;
+}
+
+/* Book list */
+.list--custom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  margin: 10px 0px;
+  border-radius: 5px;
+  border: solid black 0.8px;
+  width: 100%;
+  transition: transform 0.2s ease;
+  cursor: pointer;
+}
+
+.list--custom:hover {
+  transform: scale(1.02);
+}
+
+.active {
+  border: solid rgb(27, 42, 248) 2px;
+  font-weight: bold;
+}
+
+.list--custom p {
+  margin: 0px;
+}
+
+.status-returned {
+  color: green;
+  text-align: right;
+}
+
+.status-borrowed {
+  color: orange;
+  text-align: right;
+}
+
+.status-pending {
+  color: red;
+  text-align: right;
 }

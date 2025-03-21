@@ -5,14 +5,15 @@
         <InputSearch v-model="searchText" />
       </div>
 
-      <div class="row mt-3 row-cols-1 row-cols-md-2">
-        <div>
+      <div class="row mt-3 row-cols-1 row-cols-md-2 plus">
+        <div class="box--custom">
           <h4>Theo dõi mượn sách</h4>
           <List
             v-if="filteredObjects.length"
             :books="filteredObjects"
             :listBook="listBook"
             v-model:activeIndex="activeIndex"
+            style="padding: 0px"
           />
           <p v-else>Không có mã sách hoặc mã độc giả nào.</p>
 
@@ -32,7 +33,7 @@
           </div>
         </div>
 
-        <div v-if="activeObject">
+        <div v-if="activeObject" class="box--custom">
           <h4>Chi tiết sách mượn</h4>
           <Card :borrow="activeObject" />
           <router-link

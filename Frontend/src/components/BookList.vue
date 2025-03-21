@@ -100,35 +100,5 @@ export default {
 </script>
 
 <style>
-.list--custom {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 10px;
-  margin: 10px 0px;
-  border-radius: 5px;
-  border: solid black 0.8px;
-  width: 100%;
-}
-
-.active {
-  border: solid rgb(27, 42, 248) 2px;
-  font-weight: bold;
-}
-
-.list--custom p {
-  margin: 0px;
-}
-
-.status-returned {
-  color: green;
-}
-
-.status-borrowed {
-  color: orange;
-}
-
-.status-pending {
-  color: red;
-}
+@import "@/assets//main.css";
 </style>

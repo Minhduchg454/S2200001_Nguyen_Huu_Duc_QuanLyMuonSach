@@ -9,7 +9,7 @@
     <div class="row mt-3 row-cols-1 row-cols-md-2 plus">
       <!-- Danh sach  - trai -->
       <div class="box--custom">
-        <h4>Nhân viên</h4>
+        <h4>Danh sách nhân viên</h4>
 
         <!-- v-model: đồng bộ cha và con  -->
         <List

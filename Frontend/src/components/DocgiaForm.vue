@@ -111,7 +111,7 @@
         <p class="button--text">{{ saveButtonText }}</p>
       </button>
       <button
-        v-if="readerLocal._id"
+        v-if="!isManageReader && readerLocal._id"
         type="button"
         class="ml-2 btn btn-danger"
         @click="deleteReader"
@@ -129,6 +129,7 @@
 import * as yup from "yup";
 import { Form, Field, ErrorMessage } from "vee-validate";
 import ObjectService from "../services/docgia.service";
+import { isCancel } from "axios";
 
 export default {
   components: {
@@ -136,11 +137,12 @@ export default {
     Field,
     ErrorMessage,
   },
-  emits: ["submit:reader", "delete:reader"],
+  emits: ["submit:reader", "delete:reader", "cancel:isEdit"],
   props: {
     reader: { type: Object, required: true },
     isRegisterMode: { type: Boolean, default: false },
     isEditMode: { type: Boolean, default: false },
+    isManageReader: { type: Boolean, default: false },
   },
   data() {
     const readerFormSchema = yup.object().shape({
@@ -189,6 +191,10 @@ export default {
     deleteReader() {
       this.$emit("delete:reader", this.readerLocal.id);
     },
+    cancelEdit() {
+      this.$emit("cancel:isEdit");
+    },
+
     Cancel() {
       const reply = window.confirm(
         "Bạn chưa lưu thay đổi! Bạn có muốn rời đi?"
@@ -196,6 +202,9 @@ export default {
       if (reply) {
         if (this.isRegisterMode) {
           this.$router.push({ name: "dangnhap" });
+        } else if (this.isManageReader) {
+          this.$emit("cancel:isEdit");
+          this.$router.push({ name: "trangcanhan" });
         } else {
           this.$router.push({ name: "docgia" });
         }

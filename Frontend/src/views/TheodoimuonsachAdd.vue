@@ -2,7 +2,7 @@
   <div class="page page--edit">
     <h4>Thêm sách mượn mới</h4>
     <ObjectForm :borrow="object" @submit:borrow="createObject" />
-    <p>{{ message }}</p>
+    <p v-if="message" class="error-message">{{ message }}</p>
   </div>
 </template>
 
@@ -29,11 +29,21 @@ export default {
   methods: {
     async createObject(data) {
       try {
+        console.log("Tới đây");
         await ObjectService.create(data);
-        alert("Sách mượn được tạo thành công");
         this.$router.push({ name: "theodoimuonsach" });
       } catch (error) {
-        console.log(error);
+        //Lay loi tu server
+        if (
+          error.response &&
+          error.response.data &&
+          error.response.data.message
+        ) {
+          this.message = error.response.data.message;
+        } else {
+          this.message = "Đã xảy ra lỗi khi thêm sách mượn!";
+        }
+        alert(this.message);
       }
     },
   },

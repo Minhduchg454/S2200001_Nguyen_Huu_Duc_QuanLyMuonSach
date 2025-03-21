@@ -9,7 +9,12 @@
     >
       <p>{{ getObjectTitle(book) }}</p>
       <p :class="getStatusClass(book)">{{ getStatus(book) }}</p>
-      <p v-if="book.S_SoQuyen">{{ getQuantity(book) }}</p>
+      <p v-if="book.NV_HoTenNV" :class="getRoleClass(book)">
+        {{ getRole(book) }}
+      </p>
+      <p v-if="book.S_SoQuyen">
+        {{ getQuantity(book) }}
+      </p>
     </li>
   </ul>
 </template>
@@ -94,6 +99,19 @@ export default {
         return `SL: ${book.S_SoQuyen}`;
       }
       return "";
+    },
+    getRole(book) {
+      if (book.NV_HoTenNV) {
+        return `${book.NV_ChucVu}`;
+      }
+      return "";
+    },
+    getRoleClass(book) {
+      const role = this.getRole(book);
+      return {
+        "status-pending": role === "Admin",
+        "status-returned": role === "Nhân Viên",
+      };
     },
   },
 };

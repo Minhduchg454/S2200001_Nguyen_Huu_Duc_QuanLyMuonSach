@@ -17,6 +17,7 @@ import TheoDoiMuonSachAdd from "@/views/TheodoimuonsachAdd.vue";
 import DangNhap from "@/views/DangNhap.vue";
 import ThemSachMuonDocgia from "@/views/ThemSachMuonDocgia.vue";
 import DangKyDocGia from "@/views/DangKyDocGia.vue";
+import TrangCaNhan from "@/views/TrangCaNhan.vue";
 
 
 
@@ -157,6 +158,14 @@ const routes = [
         name: "themsachmuonDocgia.add",
         component: ThemSachMuonDocgia,
         props: true,
+        meta: {requiresAuth: true}
+    },
+
+    // Trang ca nhan doc gia:
+    {
+        path: "/trangcanhan",
+        name: "trangcanhan",
+        component: TrangCaNhan,
         meta: {requiresAuth: true}
     },
 

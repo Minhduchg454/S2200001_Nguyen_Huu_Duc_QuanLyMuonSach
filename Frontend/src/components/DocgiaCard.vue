@@ -36,6 +36,7 @@
 </template>
 
 <script>
+import { type } from "jquery";
 import { inject } from "vue";
 
 export default {

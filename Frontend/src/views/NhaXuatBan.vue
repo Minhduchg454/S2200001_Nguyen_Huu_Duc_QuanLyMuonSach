@@ -8,7 +8,7 @@
     <div class="row mt-3 row-cols-1 row-cols-md-2 plus">
       <!-- Hien thi danh sach -->
       <div class="box--custom">
-        <h4>Nhà xuất bản</h4>
+        <h4>Danh sách nhà xuất bản</h4>
 
         <!-- v-model: đồng bộ cha và con  -->
         <List

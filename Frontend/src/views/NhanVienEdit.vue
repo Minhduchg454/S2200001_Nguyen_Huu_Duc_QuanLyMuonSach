@@ -59,10 +59,10 @@ export default {
     },
 
     async deleteObject() {
-      if (confirm("Bạn muốn xóa nhân viên này?")) {
+      if (confirm("Bạn muốn xóa tài khoản và đăng xuất?")) {
         try {
           await ObjectService.delete(this.object._id);
-          this.$router.push({ name: "nhanvien" });
+          this.$router.push({ name: "dangnhap" });
         } catch (error) {
           console.log(error);
         }

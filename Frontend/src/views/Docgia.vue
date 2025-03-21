@@ -9,7 +9,7 @@
     <div class="row mt-3 row-cols-1 row-cols-md-2 plus">
       <!-- Danh sach  - trai -->
       <div class="box--custom">
-        <h4>Độc giả</h4>
+        <h4>Danh sách độc giả</h4>
 
         <!-- v-model: đồng bộ cha và con  -->
         <List
@@ -50,6 +50,13 @@
             <i class="fas fa-edit"></i> Hiệu chỉnh
           </span>
         </router-link>
+        <button
+          v-if="user.role === 'nhanvien'"
+          class="btn btn-sm btn-danger"
+          @click="removeObjects"
+        >
+          <i class="fas fa-trash"></i> Xoá
+        </button>
       </div>
     </div>
   </div>
@@ -148,6 +155,16 @@ export default {
       if (confirm("Bạn muốn xoá tất cả ?")) {
         try {
           await ObjectsService.deleteAll();
+          this.refreshList();
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    },
+    async removeObjects() {
+      if (confirm("Bạn muốn xoá độc giả này?")) {
+        try {
+          await ObjectsService.delete(this.activeObject._id);
           this.refreshList();
         } catch (error) {
           console.log(error);

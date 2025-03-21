@@ -38,6 +38,12 @@
             <span class="nav-text">Theo dõi mượn sách</span>
           </router-link>
         </li>
+        <li v-if="user?.role === 'docgia'">
+          <router-link :to="{ name: 'trangcanhan' }" class="nav-link">
+            <i class="fas fa-user-circle"></i>
+            <span class="nav-text">Trang cá nhân</span>
+          </router-link>
+        </li>
       </ul>
     </div>
 

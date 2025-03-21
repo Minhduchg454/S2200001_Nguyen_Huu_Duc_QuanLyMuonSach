@@ -179,7 +179,7 @@ Form {
   background-color: white;
   width: 100%;
   border: black solid 1px;
-  min-width: 400px;
+  min-width: 300px;
   padding: 5px;
 }
 
@@ -368,4 +368,14 @@ Form {
 .status-pending {
   color: red;
   text-align: right;
+}
+
+.row {
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.error-message {
+  color: red;
+  font-weight: bold;
 }

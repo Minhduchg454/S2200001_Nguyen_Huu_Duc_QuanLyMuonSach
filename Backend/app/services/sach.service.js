@@ -98,15 +98,6 @@ class SachService {
         const filter = { _id: id };
         const updateData = {};
 
-        /*
-        if (payload.hasOwnProperty("S_SoQuyen")) {
-            if (payload.S_SoQuyen === -1) {
-                updateData.$inc = { S_SoQuyen: -1 }; // Giảm số lượng đi 1
-            } else {
-                updateData.$set = { S_SoQuyen: payload.S_SoQuyen }; // Cập nhật số lượng cụ thể
-            }
-        }
-        */
        if (payload.hasOwnProperty("action")) {
             if (payload.action === "borrow") {
                 updateData.$inc = { S_SoQuyen: -1 }; // Giảm số lượng khi mượn

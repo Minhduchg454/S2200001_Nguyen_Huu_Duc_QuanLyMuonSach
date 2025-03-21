@@ -1,7 +1,11 @@
 <template>
   <div class="page page--edit">
     <h4>Thêm nhân viên mới</h4>
-    <ObjectForm :employee="object" @submit:employee="createObject" />
+    <ObjectForm
+      :employee="object"
+      :isAddMode="true"
+      @submit:employee="createObject"
+    />
     <p>{{ message }}</p>
   </div>
 </template>

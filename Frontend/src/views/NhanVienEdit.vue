@@ -4,6 +4,7 @@
     <!-- Doi ten thuoc tinh cua form -->
     <ObjectForm
       :employee="object"
+      :isAddMode="false"
       @submit:employee="updateObject"
       @delete:employee="deleteObject"
     />

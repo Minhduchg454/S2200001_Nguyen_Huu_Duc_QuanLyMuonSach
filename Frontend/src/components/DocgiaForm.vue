@@ -13,6 +13,7 @@
         type="text"
         class="form-control form-control--input"
         v-model="readerLocal.DG_UserName"
+        :disabled="isAddMode"
       />
       <ErrorMessage name="DG_UserName" class="error-feedback" />
     </div>
@@ -139,6 +140,7 @@ export default {
   props: {
     reader: { type: Object, required: true },
     isRegisterMode: { type: Boolean, default: false },
+    isAddMode: { type: Boolean, default: false },
   },
   data() {
     const readerFormSchema = yup.object().shape({

@@ -1,54 +1,59 @@
 <template>
-  <div class="page row">
-    <div class="col-12">
-      <InputSearch v-model="searchText" />
-    </div>
-
-    <!-- Hien thi danh sach -->
-    <div class="mt-3 col-md-6">
-      <h4>Theo dõi mượn sách</h4>
-      <!-- v-model: đồng bộ cha và con  -->
-      <List
-        v-if="filteredObjectsCount > 0"
-        :books="filteredObjects"
-        v-model:activeIndex="activeIndex"
-      />
-      <p v-else>Không có mã sách hoặc mã độc giả nào.</p>
-
-      <div
-        v-if="user.role == 'nhanvien'"
-        class="mt-3 d-flex justify-content-center gap-2"
-      >
-        <button class="btn btn-sm btn-primary" @click="refreshList">
-          <i class="fas fa-redo"></i> Làm mới
-        </button>
-
-        <button class="btn btn-sm btn-success" @click="goToAddObject">
-          <i class="fas fa-plus"></i>Thêm mới
-        </button>
-
-        <button class="btn btn-sm btn-danger" @click="removeAllObjects">
-          <i class="fas fa-trash"></i> Xóa tất cả
-        </button>
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <InputSearch v-model="searchText" />
       </div>
-    </div>
 
-    <!-- Card -->
-    <div class="mt-3 col-md-6">
-      <div v-if="activeObject">
-        <h4>Chi tiết sách mượn</h4>
-        <Card :borrow="activeObject" />
-        <router-link
-          v-if="user.role == 'nhanvien'"
-          :to="{
-            name: 'theodoimuonsach.edit',
-            params: { id: activeObject._id },
-          }"
-        >
-          <span class="btn btn-sm btn--edit">
-            <i class="fas fa-edit"></i> Hiệu chỉnh
-          </span>
-        </router-link>
+      <div class="row mt-3 row-cols-1 row-cols-md-2">
+        <div>
+          <h4>Theo dõi mượn sách</h4>
+          <List
+            v-if="filteredObjects.length"
+            :books="filteredObjects"
+            :listBook="listBook"
+            v-model:activeIndex="activeIndex"
+          />
+          <p v-else>Không có mã sách hoặc mã độc giả nào.</p>
+
+          <div
+            v-if="user.role === 'nhanvien'"
+            class="mt-3 d-flex justify-content-center gap-2"
+          >
+            <button class="btn btn-sm btn-primary" @click="refreshList">
+              <i class="fas fa-redo"></i> Làm mới
+            </button>
+            <button class="btn btn-sm btn-success" @click="goToAddObject">
+              <i class="fas fa-plus"></i> Thêm mới
+            </button>
+            <button class="btn btn-sm btn-danger" @click="removeAllObjects">
+              <i class="fas fa-trash"></i> Xóa tất cả
+            </button>
+          </div>
+        </div>
+
+        <div v-if="activeObject">
+          <h4>Chi tiết sách mượn</h4>
+          <Card :borrow="activeObject" />
+          <router-link
+            v-if="user.role === 'nhanvien'"
+            :to="{
+              name: 'theodoimuonsach.edit',
+              params: { id: activeObject._id },
+            }"
+          >
+            <span class="btn btn-sm btn--edit">
+              <i class="fas fa-edit"></i> Hiệu chỉnh
+            </span>
+          </router-link>
+          <button
+            v-if="user.role === 'docgia' && !activeObject.NV_MaNV"
+            class="btn btn-sm btn-danger"
+            @click="removeObjects"
+          >
+            <i class="fas fa-trash"></i> Huỷ
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -59,6 +64,7 @@ import Card from "@/components/TheodoimuonsachCard.vue";
 import InputSearch from "@/components/InputSearch.vue";
 import List from "@/components/BookList.vue";
 import ObjectsService from "@/services/theodoimuonsach.service";
+import BookService from "@/services/sach.service";
 import { inject } from "vue";
 
 export default {
@@ -79,6 +85,7 @@ export default {
   //Luu tu khoa tim kiem
   data() {
     return {
+      listBook: [],
       objects: [],
       activeIndex: -1,
       searchText: "",
@@ -134,8 +141,10 @@ export default {
           this.objects = await ObjectsService.getAll({
             DG_MaDocGia: this.user.id,
           });
+          this.listBook = await BookService.getAll();
         } else {
           this.objects = await ObjectsService.getAll();
+          this.listBook = await BookService.getAll();
         }
       } catch (error) {
         console.log(error);
@@ -151,6 +160,17 @@ export default {
       if (confirm("Bạn muốn xoá tất cả ?")) {
         try {
           await ObjectsService.deleteAll();
+          this.refreshList();
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    },
+
+    async removeObjects() {
+      if (confirm("Bạn muốn huỷ mượn?")) {
+        try {
+          await ObjectsService.delete(this.activeObject._id);
           this.refreshList();
         } catch (error) {
           console.log(error);

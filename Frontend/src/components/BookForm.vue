@@ -17,6 +17,7 @@
         type="text"
         class="form-control form-control--input"
         v-model="bookLocal.S_MaSach"
+        :disabled="isAddMode"
       />
       <ErrorMessage name="bookID" class="error-feedback" />
     </div>
@@ -126,6 +127,7 @@ export default {
   emits: ["submit:book", "delete:book"],
   props: {
     book: { type: Object, required: true },
+    isAddMode: { type: Boolean, default: false },
   },
   data() {
     const bookFormSchema = yup.object().shape({

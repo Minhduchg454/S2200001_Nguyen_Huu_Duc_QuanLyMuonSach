@@ -1,52 +1,55 @@
 <template>
-  <div class="page row">
-    <div class="col-12">
-      <InputSearch v-model="searchText" />
-    </div>
-
-    <!-- Hien thi danh sach -->
-    <div class="mt-3 col-md-6">
-      <h4>Nhân viên</h4>
-
-      <!-- v-model: đồng bộ cha và con  -->
-      <List
-        v-if="filteredObjectsCount > 0"
-        :books="filteredObjects"
-        v-model:activeIndex="activeIndex"
-      />
-      <p v-else>Không có nhân viên nào.</p>
-
-      <div class="mt-3 d-flex justify-content-center gap-2">
-        <button class="btn btn-sm btn-primary" @click="refreshList">
-          <i class="fas fa-redo"></i> Làm mới
-        </button>
-
-        <button class="btn btn-sm btn-success" @click="goToAddObject">
-          <i class="fas fa-plus"></i>Thêm mới
-        </button>
-
-        <button class="btn btn-sm btn-danger" @click="removeAllObjects">
-          <i class="fas fa-trash"></i> Xóa tất cả
-        </button>
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <!-- Search -->
+        <InputSearch v-model="searchText" />
       </div>
     </div>
+    <div class="row mt-3 row-cols-1 row-cols-md-2">
+      <!-- Danh sach  - trai -->
+      <div>
+        <h4>Nhân viên</h4>
 
-    <!-- Card -->
-    <div class="mt-3 col-md-6">
-      <div v-if="activeObject">
-        <h4>Chi tiết nhân viên</h4>
-        <Card :employee="activeObject" />
+        <!-- v-model: đồng bộ cha và con  -->
+        <List
+          v-if="filteredObjectsCount > 0"
+          :books="filteredObjects"
+          v-model:activeIndex="activeIndex"
+        />
+        <p v-else>Không có nhân viên nào.</p>
 
-        <router-link
-          :to="{
-            name: 'nhanvien.edit',
-            params: { id: activeObject._id },
-          }"
-        >
-          <span class="btn btn-sm btn--edit">
-            <i class="fas fa-edit"></i> Hiệu chỉnh
-          </span>
-        </router-link>
+        <div class="mt-3 d-flex justify-content-center gap-2">
+          <button class="btn btn-sm btn-primary" @click="refreshList">
+            <i class="fas fa-redo"></i> Làm mới
+          </button>
+
+          <button class="btn btn-sm btn-success" @click="goToAddObject">
+            <i class="fas fa-plus"></i>Thêm mới
+          </button>
+
+          <button class="btn btn-sm btn-danger" @click="removeAllObjects">
+            <i class="fas fa-trash"></i> Xóa tất cả
+          </button>
+        </div>
+      </div>
+      <!-- Chi tiet - phai -->
+      <div>
+        <div v-if="activeObject">
+          <h4>Chi tiết nhân viên</h4>
+          <Card :employee="activeObject" />
+
+          <router-link
+            :to="{
+              name: 'nhanvien.edit',
+              params: { id: activeObject._id },
+            }"
+          >
+            <span class="btn btn-sm btn--edit">
+              <i class="fas fa-edit"></i> Hiệu chỉnh
+            </span>
+          </router-link>
+        </div>
       </div>
     </div>
   </div>

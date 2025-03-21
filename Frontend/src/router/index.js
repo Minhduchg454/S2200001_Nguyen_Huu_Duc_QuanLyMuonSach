@@ -83,7 +83,7 @@ const routes = [
     },
 
     {
-        path: "/nhavienadd",
+        path: "/nhanvienadd",
         name: "nhanvien.add",
         component: NhanVienAdd,
         meta: {requiresAuth: true}

@@ -3,6 +3,7 @@
     <h4>Hiệu chỉnh sách</h4>
     <BookForm
       :book="book"
+      :isAddMode="true"
       @submit:book="updateBook"
       @delete:book="deleteBook"
     />

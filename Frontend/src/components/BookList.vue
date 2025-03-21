@@ -1,13 +1,30 @@
+<template>
+  <ul>
+    <li
+      class="list--custom"
+      v-for="(book, index) in books"
+      :key="book._id"
+      :class="{ active: index === activeIndex }"
+      @click="updateActiveIndex(index)"
+    >
+      <p>{{ getObjectTitle(book) }}</p>
+      <p :class="getStatusClass(book)">{{ getStatus(book) }}</p>
+      <p v-if="book.S_SoQuyen">{{ getQuantity(book) }}</p>
+    </li>
+  </ul>
+</template>
+
 <script>
 import { inject } from "vue";
 
 export default {
   setup() {
-    const user = inject("user"); // Lấy user từ App.vue
+    const user = inject("user");
     console.log("User từ App.vue:", user);
     return { user };
   },
   props: {
+    listBook: { type: Array, default: [] },
     books: { type: Array, default: [] },
     activeIndex: { type: Number, default: -1 },
   },
@@ -24,73 +41,94 @@ export default {
         "DG_Ten",
         "NgayMuon",
       ];
-      //Tìm key dau tien co gia tri hop le
       const keyFound = nameKeys.find((key) => book[key]);
-      //Duyet tung phan tu cua name key vao do trong book
-      //Neu key nao ton tai thi lay key do ra
-      //Neu key hop le thì lay gia tri trong mang book co tu khoa key. vd book["S_TenSach"]==book.S_TenSach
-      //                                                                book["NXB_TenNXB"]==book.NXB_TenNXB
-      if (keyFound == "S_TenSach") {
+
+      if (keyFound === "S_TenSach") {
         return book[keyFound];
       }
 
-      //Ghep ten lai
       if (keyFound === "DG_Ten") {
-        //Ghep hai chuoi lai va loai bo khoang trang
         return `${book.DG_HoLot} ${book.DG_Ten}`.trim();
       }
 
-      if (this.user.role == "docgia") {
-        const status = book.NgayTra ? "Đã trả" : "Đang mượn";
-        return `${status}: ${book.S_MaSach}`;
-      }
+      if (keyFound === "NgayMuon") {
+        // Tìm sách trong listBook dựa vào S_MaSach
+        const bookFromList = this.listBook.find(
+          (item) => item._id === book.S_MaSach
+        );
 
-      if (keyFound == "NgayMuon") {
-        const status = book.NgayTra ? "Đã trả" : "Đang mượn";
-        return `${status}: ${book.DG_MaDocGia} | ${book.S_MaSach}`;
+        if (bookFromList) {
+          return `${book.DG_MaDocGia} | ${bookFromList.S_TenSach}`;
+        }
+
+        return `${book.DG_MaDocGia} | Không tìm thấy sách`;
       }
 
       return keyFound ? book[keyFound] : "Không có dữ liệu";
+    },
+    getStatus(book) {
+      let status;
+      if (book.NgayMuon) {
+        if (book.NV_MaNV && book.NgayTra) {
+          status = "Đã trả";
+        } else if (book.NV_MaNV) {
+          status = "Đang mượn";
+        } else {
+          status = "Chưa duyệt";
+        }
+      } else {
+        status = " ";
+      }
+      return status;
+    },
+    getStatusClass(book) {
+      const status = this.getStatus(book);
+      return {
+        "status-returned": status === "Đã trả",
+        "status-borrowed": status === "Đang mượn",
+        "status-pending": status === "Chưa duyệt",
+      };
+    },
+    getQuantity(book) {
+      if (book.S_SoQuyen) {
+        return `SL: ${book.S_SoQuyen}`;
+      }
+      return "";
     },
   },
 };
 </script>
 
-<template>
-  <ul class="list-group">
-    <li
-      class="list-group-item"
-      v-for="(book, index) in books"
-      :key="book._id"
-      :class="{ active: index === activeIndex }"
-      @click="updateActiveIndex(index)"
-    >
-      {{ getObjectTitle(book) }}
-    </li>
-  </ul>
-</template>
+<style>
+.list--custom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  margin: 10px 0px;
+  border-radius: 5px;
+  border: solid black 0.8px;
+  width: 100%;
+}
 
-<!-- 
-    v-for="(contact,index) in contacts"
-    + contacts là mảng các phần từ
-    + contact là một phần từ trong mảng và index là chỉ số phần từ đó
+.active {
+  border: solid rgb(27, 42, 248) 2px;
+  font-weight: bold;
+}
 
+.list--custom p {
+  margin: 0px;
+}
 
-    props: nhận dữ liệu từ component cha
-        + contacts nhận danh sách liên hệ từ cha, là một mảng
-        + Chỉ số liên hệ được chọn, mặc định là -1
+.status-returned {
+  color: green;
+}
 
-    emits: sự kiện, cập nhật activeIndex cho cha khi người dùng click vào một liên hệ
-        +method: 
-            Khi click vào một liên hệ, gọi updateActiveIndex(index).
-	        Phát sự kiện "update:activeIndex" để component cha cập nhật activeIndex.
+.status-borrowed {
+  color: orange;
+}
 
-    Template: hiển thị danh sách liên hệ, chọn một liên hệ và làm nổi bật liên hệ đó
-        +hiện danh sách với v-for, lập qua mảng contact với index, tạo danh sách với li
-            contact: dữ liệu từng liên hệ, index là số thứ tự phần tử trong mảng
-            :key="contact._id" giúp Vue nhận diện từng phần tử trong danh sách, dễ dàng cập nhật khi có thay đổi
-
-    Nếu index === activeIndex thì thêm class"active" làm nổi bật liên hệ đó
-        Bắt sự kiện Click: khi click vào liên hệ, cập nhật activeIndex lên cha
-
--->
+.status-pending {
+  color: red;
+}
+</style>

@@ -4,6 +4,7 @@
     <!-- Doi ten thuoc tinh cua form -->
     <ObjectForm
       :reader="object"
+      :isAddMode="true"
       @submit:reader="updateObject"
       @delete:reader="deleteObject"
     />

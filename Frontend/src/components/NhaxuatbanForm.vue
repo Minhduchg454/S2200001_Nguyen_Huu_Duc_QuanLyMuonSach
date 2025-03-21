@@ -12,6 +12,7 @@
         type="text"
         class="form-control form-control--input"
         v-model="publisherLocal.NXB_Ma"
+        :disabled="isAddMode"
       />
       <ErrorMessage name="NXB_Ma" class="error-feedback" />
     </div>
@@ -71,6 +72,7 @@ export default {
   emits: ["submit:publisher", "delete:publisher"],
   props: {
     publisher: { type: Object, required: true },
+    isAddMode: { type: Boolean, default: false },
   },
   data() {
     const publisherFormSchema = yup.object().shape({

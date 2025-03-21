@@ -12,6 +12,7 @@
         type="text"
         class="form-control form-control--input"
         v-model="employeeLocal.NV_MaNV"
+        :disabled="isAddMode"
       />
       <ErrorMessage name="NV_MaNV" class="error-feedback" />
     </div>
@@ -107,6 +108,7 @@ export default {
   emits: ["submit:employee", "delete:employee"],
   props: {
     employee: { type: Object, required: true },
+    isAddMode: { type: Boolean, default: false },
   },
   data() {
     const employeeFormSchema = yup.object().shape({

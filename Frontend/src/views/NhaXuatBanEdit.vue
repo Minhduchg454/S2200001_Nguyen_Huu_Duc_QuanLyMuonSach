@@ -3,6 +3,7 @@
     <h4>Hiệu chỉnh nhà xuất bản</h4>
     <PublisherForm
       :publisher="publisher"
+      :isAddMode="true"
       @submit:publisher="updatePublisher"
       @delete:publisher="deletePublisher"
     />

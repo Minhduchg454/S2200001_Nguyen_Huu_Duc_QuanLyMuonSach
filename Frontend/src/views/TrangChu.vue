@@ -1,44 +1,45 @@
 <template>
-  <div class="page row">
-    <div class="col-12">
-      <InputSearch v-model="searchText" />
-    </div>
-
-    <!-- Hien thi danh sach sach -->
-    <div class="mt-3 col-md-6">
-      <h4>Danh sách sách</h4>
-
-      <!-- v-model: đồng bộ cha và con  -->
-      <BookList
-        v-if="filteredBooksCount > 0"
-        :books="filteredBooks"
-        v-model:activeIndex="activeIndex"
-      />
-      <p v-else>Không có sách nào.</p>
-
-      <div
-        class="mt-3 d-flex justify-content-center gap-2"
-        v-if="user.role == 'nhanvien'"
-      >
-        <button class="btn btn-sm btn-primary" @click="refreshList">
-          <i class="fas fa-redo"></i> Làm mới
-        </button>
-
-        <button class="btn btn-sm btn-success" @click="goToAddBook">
-          <i class="fas fa-plus"></i>Thêm mới
-        </button>
-
-        <button class="btn btn-sm btn-danger" @click="removeAllBooks">
-          <i class="fas fa-trash"></i> Xóa tất cả
-        </button>
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <InputSearch v-model="searchText" />
       </div>
     </div>
 
-    <!-- Book card -->
-    <div class="mt-3 col-md-6">
+    <div class="row mt-3 row-cols-1 row-cols-md-2">
+      <!-- Cột danh sách sách -->
+      <div>
+        <h4>Danh sách sách</h4>
+        <BookList
+          v-if="filteredBooksCount > 0"
+          :books="filteredBooks"
+          v-model:activeIndex="activeIndex"
+        />
+        <p v-else>Không có sách nào.</p>
+
+        <div
+          class="mt-3 d-flex justify-content-center gap-2"
+          v-if="user.role == 'nhanvien'"
+        >
+          <button class="btn btn-sm btn-primary" @click="refreshList">
+            <i class="fas fa-redo"></i> Làm mới
+          </button>
+
+          <button class="btn btn-sm btn-success" @click="goToAddBook">
+            <i class="fas fa-plus"></i> Thêm mới
+          </button>
+
+          <button class="btn btn-sm btn-danger" @click="removeAllBooks">
+            <i class="fas fa-trash"></i> Xóa tất cả
+          </button>
+        </div>
+      </div>
+
+      <!-- Cột chi tiết sách -->
       <div v-if="activeBook">
         <h4>Chi tiết Sách</h4>
         <BookCard :book="activeBook" />
+
         <router-link
           :to="{
             name: 'trangchu.edit',
@@ -50,7 +51,7 @@
             <i class="fas fa-edit"></i> Hiệu chỉnh
           </span>
         </router-link>
-        <p>{{ user._id }}</p>
+
         <router-link
           :to="{
             name: 'themsachmuonDocgia.add',
@@ -62,6 +63,7 @@
             <i class="fas fa-edit"></i> Mượn sách
           </span>
         </router-link>
+
         <div v-if="bookCount == 0 && user.role == 'docgia'" class="stock">
           <p>Sách đã hết trong kho</p>
         </div>
@@ -69,7 +71,6 @@
     </div>
   </div>
 </template>
-
 <script>
 import BookCard from "@/components/BookCard.vue";
 import InputSearch from "@/components/InputSearch.vue";

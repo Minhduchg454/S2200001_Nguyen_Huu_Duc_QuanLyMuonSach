@@ -1,7 +1,7 @@
 <template>
   <nav class="navbar-custom">
     <div class="custom-left">
-      <a href="/" class="logo--nav">Quản lý mượn sách </a>
+      <a href="/" class="logo--nav">{{ logoName() }} </a>
       <ul class="nav-links">
         <li>
           <router-link :to="{ name: 'trangchu' }" class="nav-link">
@@ -49,7 +49,7 @@
 </template>
 
 <script>
-import { inject } from "vue";
+import { inject, computed } from "vue";
 import { useRouter } from "vue-router"; // Import useRouter
 
 export default {
@@ -66,7 +66,13 @@ export default {
       }
     };
 
-    return { user, logout };
+    const logoName = () => {
+      return user.value.role === "docgia"
+        ? "Thư viện sách"
+        : "Quản lý mượn sách";
+    };
+
+    return { user, logout, logoName };
   },
 };
 </script>

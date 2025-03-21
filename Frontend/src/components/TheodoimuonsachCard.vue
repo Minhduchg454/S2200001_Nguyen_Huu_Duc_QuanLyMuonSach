@@ -10,18 +10,12 @@ export default {
   props: {
     borrow: { type: Object, required: true },
   },
+  methods: {},
 };
 </script>
 
 <template>
   <div>
-    <div
-      class="p-1"
-      :class="borrow.NgayTra ? 'text-green-600' : 'text-red-600'"
-    >
-      <strong>{{ borrow.NgayTra ? "Đã trả" : "Đang mượn" }}</strong>
-    </div>
-
     <div class="p-1">
       <strong>Ngày mượn:</strong>
       {{ borrow.NgayMuon }}

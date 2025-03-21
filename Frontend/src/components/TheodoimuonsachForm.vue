@@ -30,7 +30,7 @@
       <ErrorMessage name="S_MaSach" class="error-feedback" />
     </div>
 
-    <div class="form-group">
+    <div class="form-group" v-show="user.role !== 'docgia'">
       <label for="NV_MaNV">Mã nhân viên </label>
       <Field
         id="NV_MaNV"

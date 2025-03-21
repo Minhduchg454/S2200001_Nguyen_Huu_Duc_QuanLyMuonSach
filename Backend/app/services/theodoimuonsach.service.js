@@ -68,7 +68,9 @@ class TheodoimuonsachService {
         // Chèn dữ liệu mới
         const result = await this.Theodoimuonsach.insertOne(theodoimuonsach);
         console.log(result)
-        await sachService.update(theodoimuonsach.S_MaSach, { action: "borrow" });
+        if (theodoimuonsach.NV_MaNV){
+            await sachService.update(theodoimuonsach.S_MaSach, { action: "borrow" });
+        }
         return { insertedId: result.insertedId, ...theodoimuonsach };
     }
 
@@ -114,9 +116,12 @@ class TheodoimuonsachService {
         { $set: update },
         { new: true }
     );
-
     if (payload.NgayTra && payload.NgayTra.trim() !== "") {
+        // Nếu có ngày trả, cập nhật là trả sách
         await sachService.update(sachId, { action: "return" });
+    } else if (payload.NV_MaNV) {
+        // Nếu không có ngày trả nhưng có nhân viên mượn, cập nhật là mượn sách
+        await sachService.update(sachId, { action: "borrow" });
     }
 
     return result;
@@ -133,7 +138,6 @@ class TheodoimuonsachService {
         }
         const filter = { _id: new ObjectId(id) };
         const result = await this.Theodoimuonsach.findOneAndDelete(filter);
-        await sachService.update(sachId, { action: "return" });
         return result;
     }
 

@@ -2,6 +2,7 @@
   <div class="form--docgia">
     <h4>Tạo tài khoản độc giả</h4>
     <ObjectForm
+      :isAddMode="true"
       :reader="object"
       :is-register-mode="true"
       @submit:reader="createObject"

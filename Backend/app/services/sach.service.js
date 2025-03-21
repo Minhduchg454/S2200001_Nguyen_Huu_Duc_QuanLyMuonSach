@@ -87,10 +87,6 @@ class SachService {
         return await this.Sach.findOne({
             _id: id
             })
-        /*
-        	•	Nếu id hợp lệ → Chuyển thành ObjectId và tìm trong MongoDB.
-	        •	Nếu id không hợp lệ → MongoDB sẽ tìm _id: null, nhưng thông thường không có document nào có _id là null.
-        */
     }
 
     //Cap nhat theo id va noi dung

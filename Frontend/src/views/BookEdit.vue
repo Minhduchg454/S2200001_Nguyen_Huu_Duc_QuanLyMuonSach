@@ -1,5 +1,5 @@
 <template>
-  <div v-if="book" class="page">
+  <div v-if="book" class="page page--edit">
     <h4>Hiệu chỉnh sách</h4>
     <BookForm
       :book="book"

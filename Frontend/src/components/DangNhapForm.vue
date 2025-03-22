@@ -12,7 +12,7 @@
       <Field
         id="userName"
         name="userName"
-        type="text"
+        type="text'"
         class="form-control form-control--input"
         v-model="userLocal.userName"
         autofocus
@@ -25,10 +25,14 @@
       <Field
         id="password"
         name="password"
-        type="password"
+        :type="isShowPassword ? 'text' : 'password'"
         class="form-control form-control--input"
         v-model="userLocal.password"
       />
+      <button type="button" class="toggle-btn" @click="togglePassword">
+        {{ isShowPassword ? "Ẩn mật khẩu" : "Hiện mật khẩu" }}
+      </button>
+      <br />
       <ErrorMessage name="password" class="error-feedback" />
     </div>
 
@@ -81,6 +85,7 @@ export default {
         password: "",
       },
       loginFormSchema,
+      isShowPassword: false,
     };
   },
   methods: {
@@ -92,6 +97,9 @@ export default {
     gotoRegister() {
       this.$router.push({ name: "dangkydocgia" });
     },
+    togglePassword() {
+      this.isShowPassword = !this.isShowPassword;
+    },
   },
 };
 </script>
@@ -99,13 +107,13 @@ export default {
 <style scoped>
 @import "@/assets/main.css";
 .form--custom {
-  background-color: white;
   display: flex;
   flex-direction: column;
   align-items: center;
   margin: auto; /* Giúp căn giữa theo chiều dọc, dựa vào cha  main--custom*/
   border-radius: 15px;
   padding: 10px;
+  background: white; /* Màu trắng mờ */
 }
 
 .controlButton {
@@ -152,5 +160,18 @@ export default {
   transform: scale(1.1);
 }
 
-@import "@/assets//main.css";
+.toggle-btn {
+  background: none;
+  border: none;
+  color: #7a7a7a;
+  cursor: pointer;
+  font-size: 0.8rem;
+  margin-left: auto; /* Đẩy nút sang phải */
+  text-align: right;
+  width: 100%; /* Đảm bảo nó chiếm hết chiều rộng của container */
+}
+.toggle-btn:hover {
+  color: rgba(0, 0, 0, 0.7); /* Khi hover, tối hơn một chút */
+  text-decoration: underline;
+}
 </style>

@@ -12,7 +12,7 @@
       <Field
         id="userName"
         name="userName"
-        type="text'"
+        type="text"
         class="form-control form-control--input"
         v-model="userLocal.userName"
         autofocus

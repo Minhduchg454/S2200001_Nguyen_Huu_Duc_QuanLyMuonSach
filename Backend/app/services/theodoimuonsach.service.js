@@ -137,6 +137,9 @@ class TheodoimuonsachService {
             throw new ApiError(400, "Invalid ID format");
         }
         const filter = { _id: new ObjectId(id) };
+        if (theodoimuonsach.NV_MaNV && theodoimuonsach.NV_MaNV !==""){
+            await sachService.update(sachId, { action: "return" });
+        }
         const result = await this.Theodoimuonsach.findOneAndDelete(filter);
         return result;
     }

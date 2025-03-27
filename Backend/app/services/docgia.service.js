@@ -43,6 +43,7 @@ class DocgiaService {
                 throw new ApiError(400, "Missing required field(s)");   
             }
            
+        //Bam mat khau hashing, 10 so lan lap lai de tang do phuc tap
         docgia.DG_Password= await bcrypt.hash(payload.DG_Password, 10);
 
         const existDocgia = await this.find({_id: docgia._id});

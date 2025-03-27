@@ -134,7 +134,17 @@ export default {
           "Mã nhân viên không tồn tại.",
           this.checkEmployeerExists
         ),
-      NgayMuon: yup.date().required("Ngày mượn không được để trống."),
+      NgayMuon: yup
+        .date()
+        .required("Ngày mượn không được để trống.")
+        .test(
+          "is-today-or-future",
+          "Ngày mượn phải lớn hơn hoặc bằng ngày hôm nay.",
+          (value) => {
+            const today = new Date().setHours(0, 0, 0, 0);
+            return new Date(value).setHours(0, 0, 0, 0) >= today;
+          }
+        ),
       NgayTra: yup
         .mixed()
         .nullable()

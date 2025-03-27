@@ -4,6 +4,7 @@
     :validation-schema="borrowFormSchema"
     v-slot="{ meta }"
     class="form-CustomForm"
+    :context="{ userRole: user.role }"
   >
     <div class="form-group">
       <label for="DG_MaDocGia">Mã Độc Giả</label>
@@ -13,7 +14,7 @@
         type="text"
         class="form-control form-control--input"
         v-model="borrowLocal.DG_MaDocGia"
-        :disabled="user.role === 'docgia'"
+        :disabled="user.role === 'docgia' || isEdit"
       />
       <ErrorMessage name="DG_MaDocGia" class="error-feedback" />
     </div>
@@ -26,7 +27,7 @@
         type="text"
         class="form-control form-control--input"
         v-model="borrowLocal.S_MaSach"
-        :disabled="user.role === 'docgia'"
+        :disabled="user.role === 'docgia' || isEdit"
       />
       <ErrorMessage name="S_MaSach" class="error-feedback" />
     </div>
@@ -51,6 +52,7 @@
         type="date"
         class="form-control form-control--input"
         v-model="borrowLocal.NgayMuon"
+        :disabled="isEdit"
       />
       <ErrorMessage name="NgayMuon" class="error-feedback" />
     </div>
@@ -115,8 +117,10 @@ export default {
   emits: ["submit:borrow", "delete:borrow"],
   props: {
     borrow: { type: Object, required: true },
+    isEdit: { type: Object, default: false },
   },
   data() {
+    const { user } = this; //Lấy user từ setup
     const borrowFormSchema = yup.object().shape({
       DG_MaDocGia: yup
         .string()
@@ -140,9 +144,13 @@ export default {
         .test(
           "is-today-or-future",
           "Ngày mượn phải lớn hơn hoặc bằng ngày hôm nay.",
-          (value) => {
-            const today = new Date().setHours(0, 0, 0, 0);
-            return new Date(value).setHours(0, 0, 0, 0) >= today;
+          function (value) {
+            if (user.role === "docgia") {
+              // Sử dụng user.role trực tiếp
+              const today = new Date().setHours(0, 0, 0, 0);
+              return new Date(value).setHours(0, 0, 0, 0) >= today;
+            }
+            return true;
           }
         ),
       NgayTra: yup

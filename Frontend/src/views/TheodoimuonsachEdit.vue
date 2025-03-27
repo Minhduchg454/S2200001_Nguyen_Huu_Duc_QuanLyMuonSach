@@ -4,6 +4,7 @@
     <!-- Doi ten thuoc tinh cua form -->
     <ObjectForm
       :borrow="object"
+      :is-edit="true"
       @submit:borrow="updateObject"
       @delete:borrow="deleteObject"
     />
